@@ -1,10 +1,11 @@
 package ch02;
 
 public class Hero8 {
-	//
+	//フィールド
 	String name; //	名前の宣言
 	int hp; //	HPの宣言
 
+	//メソッド
 	public void sleep() {
 		this.hp = 100;
 		System.out.println(this.name + "は、眠って回復した！");
