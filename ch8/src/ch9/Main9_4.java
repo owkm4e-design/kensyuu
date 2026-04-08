@@ -10,7 +10,7 @@ public class Main9_4 {
 		h.name = "ミナト";
 		h.hp = 100;
 		h.sword = s;
-		System.out.println("現在の武器は" + h.sword.name);// TODO 自動生成されたメソッド・スタブ
+		System.out.println("現在の武器は" + h.sword.name);
 
 	}
 
