@@ -1,6 +1,6 @@
 package ch11;
 
-public abstract class Character11_7 {
+public abstract class Character11_8 {
 	String name;
 	int hp;
 
@@ -9,5 +9,4 @@ public abstract class Character11_7 {
 	}
 
 	public abstract void attack(Matango m);
-
 }

@@ -1,6 +1,6 @@
-package ch11;
+package ch12;
 
-public abstract class Character10_8 {
+public abstract class Character implements Life {
 	String name;
 	int hp;
 

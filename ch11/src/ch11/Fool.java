@@ -1,6 +1,6 @@
 package ch11;
 
-public class Fool extends Character10_8 implements Human11_16 {
+public class Fool extends Character11_8 implements Human11_16 {
 	//Characterからhpやnameなどのフィールドを継承している
 	//Characterから継承した抽象メソッドattack()を実装
 	public void attack(Matango m) {
