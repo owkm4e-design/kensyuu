@@ -1,25 +1,27 @@
 package program1;
 
 public class BT {
-	String name;
-	private String EmployeeList;
-	String DepartmentList;
+	final String Companyname = "BT";
+	private String EmployeeList = "";
+	String DepartmentList = "人事,営業,エンジニア";
 
-	//BTのコンストラクタ
-	public BT() {
-		this.name = "BT";
+	//従業員作成
+	public void createEmployee(String EmployeeName, String DepartmentName, String language) {
+		//人事クラスのみアクセス可能
+		if (!(DepartmentName == "人事")) {
+			System.out.println("人事クラスのみアクセス可能です");
+			return;
+		}
+		//エンジニアは使用言語も持たせる
+		if (DepartmentName == "エンジニア") {
+			this.EmployeeList += "エンジニア" + EmployeeName + "言語" + language;
+		} else {
+			this.EmployeeList += DepartmentName + EmployeeName;
+		}
 	}
 
-	//従業員リストの表示
+	//従業員情報の表示
 	public String getEmployeeList() {
 		return this.EmployeeList;
-	}
-
-	//人事クラスのみアクセス可能にする
-	public void setEmployeeLIst(String name) {
-		if (name == null) {
-			System.out.println("名前を入力してください。");
-		}
-
 	}
 }
