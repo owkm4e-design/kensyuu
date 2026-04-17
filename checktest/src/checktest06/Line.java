@@ -19,9 +19,10 @@ public class Line implements Figure {
 	}
 
 	public double getPerimeter() {
-		//((x2-x1)^2+(y2-y1)^2)=z^2
-
-		return Math.sqrt(Math.pow(x2 - x1) + Math.pow(y2 - y1));
+		
+		double dx = p2.getX() - p1.getX();
+		double dy = p2.getY() - p1.getY();
+		return Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
 	}
 
 }
