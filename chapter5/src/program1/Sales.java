@@ -24,7 +24,7 @@ public class Sales extends Employee {
 
 	//情報表示
 	public void displayinfo() {
-		System.out.println(this.EmployeeName + ":" + this.DepartmentName);
+		System.out.println(this.getEmployeeName() + ":" + this.getDepartmentName());
 
 	}
 
