@@ -1,9 +1,10 @@
 package program1;
-
+//従業員クラスからエンジニアクラスへ継承
 public class Engineer extends Employee {
 	//使用言語
 	private String language;
 
+	//エンジニアのコンストラクタ　部署名：エンジニア＋言語を持たせる
 	public Engineer(String EmployeeName, String language) {
 		super(EmployeeName, "エンジニア");
 		this.language = language;

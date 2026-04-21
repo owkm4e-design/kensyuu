@@ -1,7 +1,7 @@
 package program1;
-
+//従業員クラスから営業クラスへ継承
 public class Sales extends Employee {
-
+	//営業のコンストラクタ　部署名：営業
 	public Sales(String EmployeeName) {
 		super(EmployeeName, "営業");
 
