@@ -1,9 +1,36 @@
-package pro1;
+package chapter5.program1;
 
 public class Main {
 
 	public static void main(String[] args) {
-		//BTを用意
+		//各インスタンスを作成
+		BT bt = new BT();
+		HumanResource hr = new HumanResource(bt, "佐藤");
+		Engineer eg = new Engineer(bt, "後藤", "python");
+		Sales s = new Sales(bt, "伊藤");
+
+		//メソッドが正しく動くか確認
+		hr.interview(bt, "採用", "エンジニア", "奥津", "java");
+		hr.salary();
+		hr.displayinfo();
+		System.out.println("");
+
+		eg.displayinfo();
+		eg.develop();
+		System.out.println("");
+
+		s.reply();
+		s.schedule(eg);
+		s.meeting();
+		s.displayinfo();
+		System.out.println("");
+
+		bt.showAll();
+	}
+
+}
+/*
+//BTを用意
 		BT bt = new BT();
 
 		//人事部の佐藤さん(仮)を作成
@@ -33,9 +60,4 @@ public class Main {
 
 		bt.showAll();
 
-		/*
-		System.out.println(bt.getEmployeeList());
-		*/
-	}
-
-}
+ */

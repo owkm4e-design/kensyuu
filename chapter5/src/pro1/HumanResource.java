@@ -2,8 +2,11 @@ package pro1;
 
 public class HumanResource extends Employee {
 	//人事のコンストラクタ　必ず「人事部」がつく
-	public HumanResource(String EmployeeName) {
+	//面接していないインスタンスを自動的にリストに追加するためにBTクラスを引数として設定
+	public HumanResource(BT bt, String EmployeeName) {
 		super(EmployeeName, "人事");
+		//人事がアクセスし、自動的に従業員名、人事で登録される
+		bt.createEmployee("人事", EmployeeName, "人事", null);
 	}
 
 	//面接

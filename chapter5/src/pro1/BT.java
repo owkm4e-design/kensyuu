@@ -3,7 +3,7 @@ package pro1;
 public class BT {
 	//会社名をBTで固定
 	final String Companyname = "BT";
-	//従業員のリスト
+	//従業員のリスト　空白で初期化
 	private String EmployeeList = "";
 	//部署リスト（従業員クラス.所属部署と対応）
 	//→「人事・営業・エンジニア」の3部署を想定
@@ -21,19 +21,20 @@ public class BT {
 			//②エンジニアの登録する場合、言語langを追加
 		} else if (targetDept.equals("エンジニア")) {
 			//従業員リストに[エンジニア：Aさん（言語）]を追加
-			EmployeeList += "[エンジニア：" + EmployeeName + "(" + lang + ")]";
+			EmployeeList += "[エンジニア：" + EmployeeName + "(" + lang + ")]\n";
 			//エンジニア以外の登録をする場合
 		} else {
 			//従業員リストに[部署名（targetDept）：Aさん]を追加
-			EmployeeList += "[" + targetDept + ":" + EmployeeName + "]";
+			EmployeeList += "[" + targetDept + ":" + EmployeeName + "]\n";
 		}
 	}
 
 	//従業員情報表示
 	//全従業員の情報を表示（従業員.情報表示を実行）
 	public void showAll() {
-		getEmployeeList();
-		getDepartmentList();
+		System.out.println(getEmployeeList());
+		/*getEmployeeList();
+		getDepartmentList();*/
 	}
 
 	//従業員リストの開示
