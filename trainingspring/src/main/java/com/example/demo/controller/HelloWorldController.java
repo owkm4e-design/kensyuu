@@ -11,6 +11,7 @@ public class HelloWorldController {
 	//画面表示するためにGET、"/"：/の後ろがあっているものと一致する
 	public String helloWorld(Model model) {
 		model.addAttribute("message", "Hello World");
-		return "index";//呼び出されるHTMLの名前
+		return "index";//index⇒呼び出されるHTMLの名前
 	}
 }
+
