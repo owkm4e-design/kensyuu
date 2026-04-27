@@ -44,16 +44,20 @@ public class User implements Serializable {
 	/*
 	 * 更新日時
 	 */
+
 	@Column(name = "update_date")
 	private Date updateDate;
 	/*
 	 * 登録日時
 	 */
+
 	@Column(name = "create_date")
-	private Date create_date;
+	private Date createDate;
 	/*
 	 * 削除日時
 	 */
+
 	@Column(name = "delete_date")
-	private Date delete_date;
+	private Date deleteDate;
+
 }

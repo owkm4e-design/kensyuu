@@ -14,6 +14,7 @@ import com.example.demo.service.UserService;
 /*
  * ユーザー情報 Controller
  */
+
 @Controller
 public class UserController {
 
@@ -41,15 +42,20 @@ public class UserController {
 	 * @param model Model
 	 * @return ユーザー情報詳細画面
 	 */
-	@GetMapping(value = "/user/{id}")
-	public String displayView(@PathVariable Long id, Model model) {
-		User user = userService.findById(id);
-		model.addAttribute("userData", user);
-		return "user/view";
+	@GetMapping(value = "/user/add")
+	public String displayAdd(Model model) {
+		return "user/add";
 	}
+
 	/*
 	 * ユーザー情報詳細画面を表示
 	 *  @param model Model
 	 * @return ユーザー情報一覧画面
 	 */
+	@GetMapping("/user/{id}")
+	public String displayView(@PathVariable Long id, Model model) {
+		User user = userService.findById(id);
+		model.addAttribute("userData", user);
+		return "user/view";
+	}
 }
