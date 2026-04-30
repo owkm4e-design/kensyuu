@@ -12,52 +12,32 @@ import jakarta.persistence.Table;
 
 import lombok.Data;
 
-/*
- * ユーザー情報　Entity
- */
 @Entity
-@Data
-@Table(name = "user")
+@Data //getter,setter	の省略
+@Table(name = "user") //userテーブルを使用
 public class User implements Serializable {
-	/*
-	 * ID
-	 */
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	/*
-	 * 名前
-	 */
-	@Column(name = "name")
+
+	@Column(name = "name")//名前
 	private String name;
-	/*
-	 * 住所
-	 */
-	@Column(name = "address")
+
+	@Column(name = "address")//住所
 	private String address;
-	/*
-	 * 電話番号
-	 */
-	@Column(name = "phone")
+
+	@Column(name = "phone")//電話番号
 	private String phone;
-	/*
-	 * 更新日時
-	 */
 
-	@Column(name = "update_date")
+	@Column(name = "update_date")//更新日時
 	private Date updateDate;
-	/*
-	 * 登録日時
-	 */
 
-	@Column(name = "create_date")
+	@Column(name = "create_date")//登録日時
 	private Date createDate;
-	/*
-	 * 削除日時
-	 */
 
-	@Column(name = "delete_date")
+	@Column(name = "delete_date")//削除日時
 	private Date deleteDate;
 
 }

@@ -16,7 +16,7 @@ import com.example.demo.repository.UserRepository;
  * ユーザー情報 Service
  */
 @Service
-@Transactional(rollbackFor = Exception.class)//処理の途中で失敗したら、データベースの変更を全部なかったことにする
+@Transactional(rollbackFor = Exception.class) //処理の途中で失敗したら、データベースの変更を全部なかったことにする
 public class UserService {
 	/*
 	 * ユーザー情報 Repository
@@ -75,6 +75,6 @@ public class UserService {
 	public void delete(Long id) {
 		User user = findById(id);
 		userRepository.delete(user);
-
 	}
+
 }

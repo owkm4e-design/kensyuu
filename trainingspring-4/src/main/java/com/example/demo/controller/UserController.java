@@ -48,7 +48,7 @@ public class UserController {
 	 * @param model Model
 	 * @return ユーザー情報一覧画面
 	 */
-	@GetMapping(value = "/user/add")
+	@RequestMapping(value = "/user/add", method = RequestMethod.GET)
 	public String displayAdd(Model model) {
 		model.addAttribute("userRequest", new UserRequest());
 		return "user/add";
@@ -148,4 +148,5 @@ public class UserController {
 		userService.delete(id);//指定IDのユーザー情報を削除する
 		return "redirect:/user/list";//
 	}
+
 }

@@ -1,39 +1,32 @@
 package com.example.demo.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.entity.User;
-import com.example.demo.repository.UserRepository;
-
-/*
- * ユーザー情報 Service
- */
 @Service
+@Transactional(rollbackFor = Exception.class) //Exception系が１つでもあれば戻す
 public class UserService {
+	@Autowired //必要な部品（クラス）を自動で用意して注入してくれる
+	private UserRepository userRepository;//UserRepository をこのクラスで使えるように自動で準備しているコード
 
-	/*
-	 * ユーザー情報 Repository
-	 */
-	@Autowired
-	private UserRepository userRepository;
-
-	/*
-	 * ユーザー情報　全検索
-	 * @return 検索結果
-	 */
-	public List<User> searchAll() {
-		return userRepository.findAll();
+	public List<User> searchAll() {//List<User>：User一覧、searchAll()：全件検索
+		return userRepository.findAll();//User全員のデータをDBから取って返す
 	}
 
-	/*
-	 * ユーザー情報　主キー検索
-	 * @return　検索結果
-	 */
-	public User findById(Long id) {
-		return userRepository.findById(id).get();
+	public void create(UserRequest userRequest) {//
+		Date now = new Date();
+		User user = new User();
+		user.setName(userRequest.getName());
+		user.setAddress(userRequest.getAddress());
+		user.setPhone(userRequest.getPhone());
+		user.setCreateDate(now);
+		user.setUpdateDate(now);
+		userRepository.save(user);
 	}
-
+	
 }
