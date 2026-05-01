@@ -2,20 +2,23 @@ package com.example.demo.dto;
 
 import java.io.Serializable;
 
-import org.hibernate.annotations.processing.Pattern;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import lombok.Data;
 
-@Data
+@Data //getter,setterの省略
 public class UserRequest implements Serializable {
-
+	//@NotEmpty空文字やnullを禁止
 	@NotEmpty(message = "名前を入力してください")
-	@Size(max = 100, message = "名前は100桁以内で入力してください")
+	@Size(max = 100, message = "名前は100桁以内で入力してください") //文字数の制限0XXXX-XXXX-XXXX
 	private String name;
 
 	@Size(max = 255, message = "住所は255桁以内で入力してください")
 	private String address;
 
+	//フォーマットチェック
 	@Pattern(regexp = "0\\d{1,4}-\\d{1,4}-\\d{4}", message = "電話番号の形式で入力してください")
 	private String phone;
 }
