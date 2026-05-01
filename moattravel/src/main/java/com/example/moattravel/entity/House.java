@@ -11,13 +11,13 @@ import jakarta.persistence.Table;
 
 import lombok.Data;
 
-@Entity
-@Table(name = "houses")
-@Data
+@Entity //エンティティクラス
+@Table(name = "houses") //housesがマッピングされる
+@Data //getter,setterの省略
 public class House {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Id //フィールドを主キーに指定できる
+	@GeneratedValue(strategy = GenerationType.IDENTITY) //idの値を自動採番してくれる
+	@Column(name = "id") //
 	private Integer id;
 
 	@Column(name = "name")
@@ -45,5 +45,8 @@ public class House {
 	private String phoneNumber;
 
 	@Column(name = "created_at", insertable = false, updatable = false)
+	private Timestamp createAt;
+
+	@Column(name = "updated_at", insertable = false, updatable = false)
 	private Timestamp updatedAt;
 }
