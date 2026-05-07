@@ -23,7 +23,8 @@
 							</ol>
 						</nav>
 
-						<h1>s="mb-4 text-center">民宿登録</h1>
+						<h1 class="mb-4 text-center">民宿登録</h1>
+						<!--multipart/form-data テキストデータだけでなくファイルも一緒に送信できる-->
 						<form method="post" th:action="@{/admin/houses/create}" th:object="${houseRegisterForm}"
 							enctype="multipart/form-data">
 							<div class="form-group row mb-3">
