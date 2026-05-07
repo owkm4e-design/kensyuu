@@ -36,7 +36,7 @@ public class House {
 	private Integer capasity;
 
 	@Column(name = "postal_code")
-	private String postalcode;
+	private String postalCode;
 
 	@Column(name = "address")
 	private String address;
