@@ -69,7 +69,7 @@ public class AdminHouseController {
 		model.addAttribute("houseRegisterForm", new HouseRegisterForm());
 		return "admin/houses/register";
 	}
-	
+
 	//フォームの送信先
 	@PostMapping("/create")
 	public String create(@ModelAttribute @Validated HouseRegisterForm houseRegisterForm, BindingResult bindingResult,
@@ -83,7 +83,7 @@ public class AdminHouseController {
 
 		return "redirect:/admin/houses";//民宿一覧ページにリダイレクト
 	}
-	
+
 	//民宿編集ページ
 	@GetMapping("/{id}/edit")
 	public String edit(@PathVariable(name = "id") Integer id, Model model) {
@@ -99,5 +99,19 @@ public class AdminHouseController {
 		//生成したインスタンスをビューに渡す
 		model.addAttribute("houseEditForm", houseEditForm);
 		return "admin/houses/edit";
+	}
+
+	//フォームの送信先
+	@PostMapping("/{id}/update")
+	public String update(@ModelAttribute @Validated HouseEditForm houseEditForm, BindingResult bindingResult,
+			RedirectAttributes redirectAttributes) {
+		if (bindingResult.hasErrors()) {
+			return "admin/houses/edit";
+		}
+
+		houseService.update(houseEditForm);
+		redirectAttributes.addFlashAttribute("successMessage", "民宿情報を編集しました。");
+
+		return "redirect:/admin/houses";
 	}
 }

@@ -11,18 +11,26 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.moattravel.entity.House;
+import com.example.moattravel.form.HouseEditForm;
 import com.example.moattravel.form.HouseRegisterForm;
 import com.example.moattravel.repository.HouseRepository;
 
-@Service//サービスクラス
+@Service //サービスクラス
 public class HouseService {
+
+	//private final AdminHouseController adminHouseController;
 	private final HouseRepository houseRepository;
 
+	/*
+	public HouseService(HouseRepository houseRepository, AdminHouseController adminHouseController) {
+		this.houseRepository = houseRepository;
+		this.adminHouseController = adminHouseController;
+	}*/
 	public HouseService(HouseRepository houseRepository) {
 		this.houseRepository = houseRepository;
 	}
 
-	@Transactional//データの整合性を保つ
+	@Transactional //データの整合性を保つ
 	public void create(HouseRegisterForm houseRegisterForm) {//データの登録処理
 		House house = new House();//エンティティのインスタンス化
 		MultipartFile imageFile = houseRegisterForm.getImageFile();
@@ -44,6 +52,31 @@ public class HouseService {
 		house.setPhoneNumber(houseRegisterForm.getPhoneNumber());
 
 		houseRepository.save(house);//エンティティをデータベースに保存
+	}
+
+	@Transactional
+	public void update(HouseEditForm houseEditForm) {
+		House house = houseRepository.getReferenceById(houseEditForm.getId());
+		MultipartFile imageFile = houseEditForm.getImageFile();
+
+		if (!imageFile.isEmpty()) {
+			String imageName = imageFile.getOriginalFilename();
+			String hashedImageName = generateNewFileName(imageName);
+			Path filePath = Paths.get("src/main/resources/static/storage/" + hashedImageName);
+			copyImageFile(imageFile, filePath);
+			house.setImageName(hashedImageName);
+		}
+
+		house.setName(houseEditForm.getName());
+		house.setDescription(houseEditForm.getDescription());
+		house.setPrice(houseEditForm.getPrice());
+		house.setCapacity(houseEditForm.getCapacity());
+		house.setPostalCode(houseEditForm.getPostalCode());
+		house.setAddress(houseEditForm.getAddress());
+		house.setPhoneNumber(houseEditForm.getPhoneNumber());
+
+		houseRepository.save(house);
+
 	}
 
 	//UUIDを使って生成したファイル名を返す
