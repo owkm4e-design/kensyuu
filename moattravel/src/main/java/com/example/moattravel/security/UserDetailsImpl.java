@@ -20,12 +20,6 @@ public class UserDetailsImpl implements UserDetails {
 		return user;
 	}
 
-	// ロールのコレクションを返す
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return authorities;
-	}
-
 	//ハッシュ化済みのパスワードを返す
 	@Override
 	public String getPassword() {
@@ -36,6 +30,13 @@ public class UserDetailsImpl implements UserDetails {
 	@Override
 	public String getUsername() {
 		return user.getEmail();
+	}
+
+	// ロールのコレクションを返す
+	@Override
+	//GrantedAuthorityインターフェースを実装したクラス、またはそのサブタイプすべてのオブジェクトのコレクション
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return authorities;
 	}
 
 	// アカウントが期限切れでなければtrueを返す

@@ -2,14 +2,16 @@ package com.example.moattravel.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-@Configuration//そのクラスが設定用のクラスとして機能する
+@Configuration //そのクラスが設定用のクラスとして機能する
 @EnableWebSecurity //メソッドレベルでのセキュリティ機能を有効にする
+@EnableMethodSecurity//メソッドレベルでのセキュリティ機能を有効にする
 public class WebSecurityConfig {
 
 	@Bean
