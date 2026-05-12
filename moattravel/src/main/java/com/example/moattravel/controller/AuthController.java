@@ -36,7 +36,7 @@ public class AuthController {
 	public String signup(@ModelAttribute @Validated SignupForm signupForm, BindingResult bindingResult,
 			RedirectAttributes redirectAttributes) {
 		// メールアドレスが登録済みであれば、BindingResultオブジェクトにエラー内容を追加する
-		if (!userService.isEmailRegistered(signupForm.getEmail())) {
+		if (userService.isEmailRegistered(signupForm.getEmail())) {
 			FieldError fieldError = new FieldError(bindingResult.getObjectName(), "email", "すでに登録済みのメールアドレスです。");
 			bindingResult.addError(fieldError);
 		}
@@ -56,4 +56,5 @@ public class AuthController {
 
 		return "redirect:/";
 	}
+
 }
