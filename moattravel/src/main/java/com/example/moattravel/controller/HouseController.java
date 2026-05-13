@@ -1,8 +1,8 @@
 package com.example.moattravel.controller;
 
-import java.awt.print.Pageable;
-
-import org.springframework.data.domain.ScrollPosition.Direction;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,8 +32,10 @@ public class HouseController {
 
 		if (keyword != null && !keyword.isEmpty()) {
 			housePage = houseRepository.findByNameLikeOrAddressLike("%" + keyword + "%", "%" + keyword + "%", pageable);
-		} else if (area != null && area.isEmpty()) {
+		} else if (area != null && !area.isEmpty()) {
 			housePage = houseRepository.findByAddressLike("%" + area + "%", pageable);
+		} else if (price != null) {
+			housePage = houseRepository.findByPriceLessThanEqual(price, pageable);
 		} else {
 			housePage = houseRepository.findAll(pageable);
 		}
