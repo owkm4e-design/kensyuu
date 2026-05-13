@@ -1,5 +1,7 @@
 package com.example.moattravel.repository;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -49,4 +51,7 @@ public interface HouseRepository extends JpaRepository<House, Integer> {
 
 	//すべてのデータを取得する（宿泊料金が安い順）
 	public Page<House> findAllByOrderByPriceAsc(Pageable pageable);
+
+	//民宿を新着順に10件取得する
+	public List<House> findTop10ByOrderByCreatedAtDesc();//Top○○ 取得するデータの数を制限
 }
