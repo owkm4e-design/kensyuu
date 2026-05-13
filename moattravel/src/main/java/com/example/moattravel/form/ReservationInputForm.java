@@ -22,7 +22,8 @@ public class ReservationInputForm {
 	public LocalDate getCheckinDate() {
 		String[] checkinDateAndCheckoutDate = getFromCheckinDateToCheckoutDate().split("から");
 		//LocalDate.parse()文字列⇒日付型へ変換
-		return LocalDate.parse(checkinDateAndCheckoutDate[0]);
+		return LocalDate.parse(checkinDateAndCheckoutDate[0].trim());
+
 	}
 
 	//チェックアウト日を取得する
@@ -30,6 +31,6 @@ public class ReservationInputForm {
 		//split()後、2026-05-10から2026-05-12を「から」を境に[0]と[1]に文字列として分割
 		String[] checkinDateAndCheckoutDate = getFromCheckinDateToCheckoutDate().split("から");
 		//parse(）文字列を別の型へ変換する
-		return LocalDate.parse(checkinDateAndCheckoutDate[1]);
+		return LocalDate.parse(checkinDateAndCheckoutDate[1].trim());
 	}
 }
