@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration //そのクラスが設定用のクラスとして機能する
-@EnableWebSecurity //メソッドレベルでのセキュリティ機能を有効にする
+@EnableWebSecurity // Webセキュリティ機能を有効にする
 @EnableMethodSecurity //メソッドレベルでのセキュリティ機能を有効にする
 public class WebSecurityConfig {
 
@@ -20,7 +20,7 @@ public class WebSecurityConfig {
 				.authorizeHttpRequests((requests) -> requests
 						//.requestMatchers("/css/**", "/images/**", "/js/**", "/storage/**", "/").permitAll()// すべてのユーザーにアクセスを許可するURL
 						.requestMatchers("/css/**", "/images/**", "/js/**", "/storage/**", "/", "/signup/**", "/houses",
-								"/houses/{id}")
+								"/houses/{id}", "/stripe/webhook")
 						.permitAll() // すべてのユーザーにアクセスを許可するURL   
 						.requestMatchers("/admin/**").hasRole("ADMIN") // 管理者にのみアクセスを許可するURL
 						.anyRequest().authenticated() // 上記以外のURLはログインが必要（会員または管理者のどちらでもOK）
@@ -33,7 +33,10 @@ public class WebSecurityConfig {
 						.permitAll())
 				.logout((logout) -> logout
 						.logoutSuccessUrl("/?loggedOut") // ログアウト時のリダイレクト先URL
-						.permitAll());
+						.permitAll())
+				//「/stripe/webhook」に対するPOST送信についてはCSRF対策のチェックを行わないように設定
+				.csrf((csrf) -> csrf
+						.ignoringRequestMatchers("/stripe/webhook"));
 
 		return http.build();
 	}

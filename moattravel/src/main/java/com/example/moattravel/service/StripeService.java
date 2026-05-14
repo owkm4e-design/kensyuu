@@ -1,5 +1,8 @@
 package com.example.moattravel.service;
 
+import java.util.Map;
+import java.util.Optional;
+
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -8,13 +11,22 @@ import org.springframework.stereotype.Service;
 import com.example.moattravel.form.ReservationRegisterForm;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
+import com.stripe.model.Event;
+import com.stripe.model.StripeObject;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
+import com.stripe.param.checkout.SessionRetrieveParams;
 
 @Service
 public class StripeService {
 	@Value("${stripe.api-key}")
 	private String stripeApiKey;
+
+	private final ReservationService reservationService;
+
+	public StripeService(ReservationService reservationService) {
+		this.reservationService = reservationService;
+	}
 
 	//セッションを作成し、Stripeに必要な情報を返す
 	public String createStripeSession(String houseName, ReservationRegisterForm reservationRegisterForm,
@@ -59,6 +71,24 @@ public class StripeService {
 			e.printStackTrace();
 			return "";
 		}
+
+	}
+
+	//セッションから予約情報を取得し、ReservationServiceクラスを介してデータベースに登録する  
+	public void processSessionCompleted(Event event) {//eventはStripeから送られてくるイベント情報
+		Optional<StripeObject> optionalStripeObject = event.getDataObjectDeserializer().getObject();//イベントの中身を取得
+		optionalStripeObject.ifPresent(StripeObject -> {//データが存在する場合だけ処理
+			Session session = (Session) StripeObject;//Session型として扱えるよう変換
+			SessionRetrieveParams params = SessionRetrieveParams.builder().addExpand("payment_intent").build();//Expand 詳細情報まで取得
+
+			try {
+				session = Session.retrieve(session.getId(), params, null);//詳細情報付きでSession取得
+				Map<String, String> paymentIntentObject = session.getPaymentIntentObject().getMetadata();
+				reservationService.create(paymentIntentObject);//DB登録。決済成功後に予約確定
+			} catch (StripeException e) {
+				e.printStackTrace();
+			}
+		});
 
 	}
 }
