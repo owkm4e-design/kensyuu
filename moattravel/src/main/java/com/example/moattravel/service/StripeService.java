@@ -2,6 +2,7 @@ package com.example.moattravel.service;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.example.moattravel.form.ReservationRegisterForm;
@@ -12,10 +13,13 @@ import com.stripe.param.checkout.SessionCreateParams;
 
 @Service
 public class StripeService {
+	@Value("${stripe.api-key}")
+	private String stripeApiKey;
+
 	//セッションを作成し、Stripeに必要な情報を返す
 	public String createStripeSession(String houseName, ReservationRegisterForm reservationRegisterForm,
 			HttpServletRequest httpServletRequest) {
-		Stripe.apiKey = "sk_test_51TWneCL1HIizIFvPeTbGBrndB9Q3JA5cXUou3vgeR8v05UvnnLjl94rVs3iBPuj6OwaUhzSVqVkN4OU4Yy2aCVb800gHiiNXN0";
+		Stripe.apiKey = stripeApiKey;
 		String requestUrl = new String(httpServletRequest.getRequestURL());
 		SessionCreateParams params = SessionCreateParams.builder()
 
