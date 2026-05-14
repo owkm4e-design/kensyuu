@@ -23,6 +23,7 @@ public class ReservationInputForm {
 		String[] checkinDateAndCheckoutDate = getFromCheckinDateToCheckoutDate().split("から");
 		//LocalDate.parse()文字列⇒日付型へ変換
 		return LocalDate.parse(checkinDateAndCheckoutDate[0].trim());
+		
 
 	}
 

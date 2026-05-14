@@ -15,10 +15,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.moattravel.entity.House;
-import com.example.moattravel.entity.Reservations;
+import com.example.moattravel.entity.Reservation;
 import com.example.moattravel.entity.User;
 import com.example.moattravel.form.ReservationInputForm;
 import com.example.moattravel.form.ReservationRegisterForm;
@@ -47,7 +48,7 @@ public class ReservationController {
 			@PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable,
 			Model model) {
 		User user = userDetailsImpl.getUser();
-		Page<Reservations> reservationPage = reservationRepository.findByUserOrderByCreatedAtDesc(user, pageable);
+		Page<Reservation> reservationPage = reservationRepository.findByUserOrderByCreatedAtDesc(user, pageable);
 
 		model.addAttribute("reservationPage", reservationPage);
 
@@ -107,6 +108,13 @@ public class ReservationController {
 		model.addAttribute("reservationRegisterForm", reservationRegisterForm);
 
 		return "reservations/confirm";
+	}
+
+	//フォームの送信先
+	@PostMapping("houses/{id}/reservations/create")
+	public String create(@ModelAttribute ReservationRegisterForm reservationRegisterForm) {
+		reservationService.create(reservationRegisterForm);
+		return "redirect:/reservations?reserved";
 	}
 
 }
