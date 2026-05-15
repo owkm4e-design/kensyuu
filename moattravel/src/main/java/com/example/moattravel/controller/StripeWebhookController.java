@@ -29,7 +29,8 @@ public class StripeWebhookController {//HTTPリクエストを受け取るクラ
 	}
 
 	@PostMapping("/stripe/webhook")
-	public ResponseEntity<String> webhook(@RequestBody String payload,
+	public ResponseEntity<String> webhook(
+			@RequestBody String payload,
 			@RequestHeader("Stripe-Signature") String sigHeader) {
 		Stripe.apiKey = stripeApiKey;
 		Event event = null;
@@ -45,5 +46,6 @@ public class StripeWebhookController {//HTTPリクエストを受け取るクラ
 		}
 
 		return new ResponseEntity<String>("success", HttpStatus.OK);
+
 	}
 }
