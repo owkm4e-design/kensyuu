@@ -12,11 +12,11 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "houses")
+@Table(name = "houses") //マッピングされるテーブル名の指定
 @Data
 public class House {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id //主キーにする
+	@GeneratedValue(strategy = GenerationType.IDENTITY) //自動採番
 	@Column(name = "id")
 	private Integer id;
 
