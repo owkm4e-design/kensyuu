@@ -1,7 +1,9 @@
 package com.example.moattravel.controller;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,12 +22,13 @@ public class AdminHouseController {
 	}
 
 	@GetMapping
-	public String index(Model model) {//Modelを使ってビューにデータを渡す
-		List<House> houses = houseRepository.findAll();
-
+	public String index(Model model,
+			@PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable) {//Modelを使ってビューにデータを渡す
+		Page<House> housePage = houseRepository.findAll(pageable);
 		//htmlファイル内で"houses"という変数を使うことで、
 		//コントローラから渡されたhousesというデータの中身を参照できる
-		model.addAttribute("houses", houses);
+		model.addAttribute("housePage", housePage);
+
 		return "admin/houses/index";
 	}
 }
