@@ -14,11 +14,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity //メソッドレベルでのセキュリティ機能を有効にする
 public class WebSecurityConfig {
 
-	@Bean//そのメソッドの戻り値（インスタンス）がDIコンテナに登録される
+	@Bean //そのメソッドの戻り値（インスタンス）がDIコンテナに登録される
 	public SecurityFilterChain securityFilterCgain(HttpSecurity http) throws Exception {
 		http
 				.authorizeHttpRequests((requests) -> requests
-						.requestMatchers("/css/**", "/images/**", "/js/**", "/storage/**", "/").permitAll() // すべてのユーザーにアクセスを許可するURL
+						.requestMatchers("/css/**", "/images/**", "/js/**", "/storage/**", "/", "/signup/**")
+						.permitAll() // すべてのユーザーにアクセスを許可するURL
 						.requestMatchers("/admin/**").hasRole("ADMIN") // 管理者にのみアクセスを許可するURL
 						.anyRequest().authenticated()// 上記以外のURLはログインが必要（会員または管理者のどちらでもOK）
 				)
