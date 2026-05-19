@@ -83,7 +83,7 @@ public class AdminHouseController {
 		House house = houseRepository.getReferenceById(id);
 		String imageName = house.getImageName();
 		HouseEditForm houseEditForm = new HouseEditForm(
-				house.getId(), house.getName(), null,//画像ファイルは渡す必要がないためnul
+				house.getId(), house.getName(), null, //画像ファイルは渡す必要がないためnul
 				house.getDescription(), house.getPrice(),
 				house.getCapacity(), house.getPostalCode(),
 				house.getAddress(), house.getPhoneNumber());
@@ -92,5 +92,18 @@ public class AdminHouseController {
 		model.addAttribute("houseEditForm", houseEditForm);
 
 		return "admin/houses/edit";
+	}
+
+	@PostMapping("/{id}/update")
+	public String update(@ModelAttribute @Validated HouseEditForm houseEditForm, BindingResult bindingResult,
+			RedirectAttributes redirectAttributes) {
+		if (bindingResult.hasErrors()) {
+			return "admin/houses/edit";
+		}
+
+		houseService.update(houseEditForm);
+		redirectAttributes.addFlashAttribute("successMessage", "民宿情報を編集しました。");
+
+		return "redirect:/admin/houses";
 	}
 }
