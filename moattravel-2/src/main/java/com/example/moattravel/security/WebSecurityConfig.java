@@ -9,12 +9,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-@Configuration
-@EnableWebSecurity
-@EnableMethodSecurity
+@Configuration //メソッドに@Beanアノテーションをつけるために必要
+@EnableWebSecurity //認証・認可のルールやログイン・ログアウト処理など各種設定を行えるように
+@EnableMethodSecurity //メソッドレベルでのセキュリティ機能を有効にする
 public class WebSecurityConfig {
 
-	@Bean
+	@Bean//そのメソッドの戻り値（インスタンス）がDIコンテナに登録される
 	public SecurityFilterChain securityFilterCgain(HttpSecurity http) throws Exception {
 		http
 				.authorizeHttpRequests((requests) -> requests
@@ -28,6 +28,10 @@ public class WebSecurityConfig {
 						.loginProcessingUrl("/login")// ログインフォームの送信先URL
 						.defaultSuccessUrl("/?loggedIn") // ログイン成功時のリダイレクト先URL
 						.failureUrl("/login?error")// ログイン失敗時のリダイレクト先URL
+						.permitAll())
+
+				.logout((logout) -> logout
+						.logoutSuccessUrl("/?loggedOut")
 						.permitAll());
 
 		return http.build();
@@ -36,6 +40,7 @@ public class WebSecurityConfig {
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 
+		//BCryptはパスワード用のハッシュ値を生成してくれる強力なハッシュアルゴリズム
 		return new BCryptPasswordEncoder();
 	}
 
