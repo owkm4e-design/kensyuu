@@ -19,8 +19,11 @@
 		<div th:replace="~{fragment :: header}"></div>
 
 		<main>
+
 			<div class="container pt-4 pb-5 moattravel-container">
+
 				<div class="row justify-content-center">
+
 					<div class="col-xxl-9 col-xl-10 col-lg-11">
 
 						<h1 class="mb-4 text-center">民宿一覧</h1>
@@ -48,8 +51,14 @@
 
 						</div>
 
+						<div th:if="${successMessage}" class="alert alert-info">
+
+							<span th:text="${successMessage}"></span>
+
+						</div>
 
 						<table class="table">
+
 							<thead>
 								<tr>
 									<th scope="col">ID</th>
@@ -62,7 +71,9 @@
 							</thead>
 
 							<tbody>
+
 								<tr th:each="house : ${housePage}">
+
 									<td th:text="${house.getId()}"></td>
 
 									<td th:text="${house.getName()}"></td>
@@ -78,8 +89,11 @@
 											詳細
 										</a>
 									</td>
+
 								</tr>
+
 							</tbody>
+
 						</table>
 
 						<!-- ページネーション -->
