@@ -41,7 +41,7 @@ public class UserService {
 	}
 
 	// メールアドレスが登録済みかどうかをチェックする
-	public boolean isEmaiRegistered(String email) {
+	public boolean isEmailRegistered(String email) {
 		User user = userRepository.findByEmail(email);//登録済のアドレスか探す
 		return user != null;
 	}
@@ -49,5 +49,12 @@ public class UserService {
 	// パスワードとパスワード（確認用）の入力値が一致するかどうかをチェックする
 	public boolean isSamePassword(String password, String passwordConfirmation) {
 		return password.equals(passwordConfirmation);
+	}
+
+	//ユーザーを有効にする
+	@Transactional
+	public void enableUser(User user) {
+		user.setEnabled(true);
+		userRepository.save(user);
 	}
 }

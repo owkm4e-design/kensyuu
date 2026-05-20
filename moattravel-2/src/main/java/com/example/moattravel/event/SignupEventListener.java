@@ -10,27 +10,30 @@ import org.springframework.stereotype.Component;
 import com.example.moattravel.entity.User;
 import com.example.moattravel.service.VerificationTokenService;
 
+//③特定のイベントが発生したときに実行するメソッドを持つクラス
 @Component
 public class SignupEventListener {
-	private final VerificationTokenService verificationTokenService;
-	private final JavaMailSender javaMailSender;
+	private final VerificationTokenService verificationTokenService;//DI
+	private final JavaMailSender javaMailSender;//DI
 
 	public SignupEventListener(VerificationTokenService verificationTokenService, JavaMailSender mailSender) {
 		this.verificationTokenService = verificationTokenService;
 		this.javaMailSender = mailSender;
 	}
 
-	@EventListener//イベント発生時に実行したいメソッド
+	@EventListener //イベント発生時に実行したいメソッド
 	private void onSignupEvent(SignupEvent signupEvent) {
 		//SignupEventクラスから通知を受けたときに実行
+		//トークンの生成と保存
 		User user = signupEvent.getUser();
 		String token = UUID.randomUUID().toString();
 		verificationTokenService.create(user, token);
+		//メールの内容を組み立てる
 		String recipientAddress = user.getEmail();
 		String subject = "メール認証";
 		String confirmationUrl = signupEvent.getRequestUrl() + "/verify?token=" + token;
 		String message = "以下のリンクをクリックして会員登録を完了して下さい。";
-
+		//メールの送信
 		SimpleMailMessage mailMessage = new SimpleMailMessage();
 		mailMessage.setTo(recipientAddress);
 		mailMessage.setSubject(subject);
