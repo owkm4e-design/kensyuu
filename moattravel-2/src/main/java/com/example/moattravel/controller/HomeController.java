@@ -19,7 +19,7 @@ public class HomeController {
 
 	@GetMapping("/") //リンク先
 	public String index(Model model) {
-		List<House> newHouses = houseRepository.findTopByOrderByCreatedAtDesc();
+		List<House> newHouses = houseRepository.findTop10ByOrderByCreatedAtDesc();
 		model.addAttribute("newHouses", newHouses);
 
 		return "index";//呼び出すビューの名前
