@@ -51,7 +51,7 @@ footer {
 	opacity: 0.8;
 }
 
-/*
+
 .moattravel-page-link {
 	color: #5196a6;
 }
@@ -65,11 +65,13 @@ footer {
 	border-color: #5196a6 !important;
 }
 
+
 .moattravel-pre-wrap {
-	// 改行文字で行を折り返す 
+	/* 改行文字で行を折り返す */
 	white-space: pre-wrap;
 }
 
+/*
 .moattravel-link-danger {
 	color: #f2594b;
 }
