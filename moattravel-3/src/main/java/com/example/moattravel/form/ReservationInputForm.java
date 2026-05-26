@@ -12,7 +12,7 @@ import lombok.Data;
 public class ReservationInputForm {
 
 	@NotBlank(message = "チェックイン日とチェックアウト日を選択してください。")
-	private String fromCheckinDateToCheckoutSDate;
+	private String fromCheckinDateToCheckoutDate;
 
 	@NotNull(message = "宿泊人数を入力してください。")
 	@Min(value = 1, message = "宿泊人数は1人以上に設定してください。")
@@ -20,13 +20,13 @@ public class ReservationInputForm {
 
 	//チャックイン日を取得する
 	public LocalDate getCheckinDate() {
-		String[] checkinDateAndCheckoutDate = getFromCheckinDateToCheckoutSDate().split("から");
+		String[] checkinDateAndCheckoutDate = getFromCheckinDateToCheckoutDate().split("から");
 		return LocalDate.parse(checkinDateAndCheckoutDate[0].trim());
 	}
 
 	//チェックアウト日を取得する
 	public LocalDate getCheckoutDate() {
-		String[] checkinDateAndCheckoutDate = getFromCheckinDateToCheckoutSDate().split("から");
+		String[] checkinDateAndCheckoutDate = getFromCheckinDateToCheckoutDate().split("から");
 		return LocalDate.parse(checkinDateAndCheckoutDate[1].trim());
 	}
 }
