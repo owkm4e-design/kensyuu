@@ -25,7 +25,6 @@ import com.example.moattravel.service.HouseService;
 @Controller
 @RequestMapping("/admin/houses")
 public class AdminHouseController {
-	//houseRepositoryのfindAll()を使うため依存性注入（DI）
 	private final HouseRepository houseRepository;
 	private final HouseService houseService;
 
@@ -37,7 +36,7 @@ public class AdminHouseController {
 	@GetMapping
 	public String index(Model model,
 			@PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable,
-			@RequestParam(name = "keyword", required = false) String keyword) {
+			@RequestParam(name = "Keyword", required = false) String keyword) {//Modelを使ってビューにデータを渡す
 
 		Page<House> housePage;
 
@@ -67,32 +66,29 @@ public class AdminHouseController {
 	}
 
 	@PostMapping("/create")
-	public String create(@ModelAttribute @Validated HouseRegisterForm houseRegisterForm,
+	public String create(
+			@ModelAttribute @Validated HouseRegisterForm houseRegisterForm,
 			BindingResult bindingResult,
 			RedirectAttributes redirectAttributes) {
-		if (bindingResult.hasErrors()) {
+		if (bindingResult.hasErrors()) {//入力に誤りがあれば登録画面に戻る
 			return "admin/houses/register";
 		}
 		houseService.create(houseRegisterForm);
 		redirectAttributes.addFlashAttribute("successMessage", "民宿を登録しました。");
-
 		return "redirect:/admin/houses";
 	}
 
 	@GetMapping("/{id}/edit")
 	public String edit(@PathVariable(name = "id") Integer id, Model model) {
 		House house = houseRepository.getReferenceById(id);
-		//民宿画像のファイル名を取得する
 		String imageName = house.getImageName();
-		//フォームクラスをインスタンス化する
-		HouseEditForm houseEditForm = new HouseEditForm(house.getId(),
-				house.getName(), null, house.getDescription(), house.getPrice(),
-				house.getCapacity(), house.getPostalCode(), house.getAddress(),
-				house.getPhoneNumber());
+		HouseEditForm houseEditForm = new HouseEditForm(
+				house.getId(), house.getName(), null, //画像ファイルは渡す必要がないためnul
+				house.getDescription(), house.getPrice(),
+				house.getCapacity(), house.getPostalCode(),
+				house.getAddress(), house.getPhoneNumber());
 
-		//民宿画像のファイル名をビューに渡す
 		model.addAttribute("imageName", imageName);
-		//生成したインスタンスをビューに渡す
 		model.addAttribute("houseEditForm", houseEditForm);
 
 		return "admin/houses/edit";
@@ -114,6 +110,7 @@ public class AdminHouseController {
 	@PostMapping("/{id}/delete")
 	public String delete(@PathVariable(name = "id") Integer id, RedirectAttributes redirectAttributes) {
 		houseRepository.deleteById(id);
+
 		redirectAttributes.addFlashAttribute("successMessage", "民宿を削除しました。");
 
 		return "redirect:/admin/houses";
