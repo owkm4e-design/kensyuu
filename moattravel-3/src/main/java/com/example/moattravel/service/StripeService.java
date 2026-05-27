@@ -7,30 +7,27 @@ import org.springframework.stereotype.Service;
 import com.example.moattravel.form.ReservationRegisterForm;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
-import com.stripe.model.billingportal.Session;
-import com.stripe.param.billingportal.SessionCreateParams;
+import com.stripe.model.checkout.Session;
+import com.stripe.param.checkout.SessionCreateParams;
 
 @Service
 public class StripeService {
 
 	//セッションを作成し、Stripeに必要な情報を返す
-	public String createStripeSession(String housename, ReservationRegisterForm reservationRegisterForm,
+	public String createStripeSession(String houseName, ReservationRegisterForm reservationRegisterForm,
 			HttpServletRequest httpServletRequest) {
 		Stripe.apiKey = "${API_SK}";
 		String requestUrl = new String(httpServletRequest.getRequestURL());
 		SessionCreateParams params = SessionCreateParams.builder()
 				.addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
 				.addLineItem(SessionCreateParams.LineItem.builder()
-
-						.setPriceData(
-								SessionCreateParams.LineItem.PriceData.builder()
-										.setProductData(
-												SessionCreateParams.LineItem.PriceData.ProductData.builder()
-														.setName(houseName)
-														.build())
-										.setUnitAmount((long) reservationRegisterForm.getAmount())
-										.setCurrency("jpy")
+						.setPriceData(SessionCreateParams.LineItem.PriceData.builder()
+								.setProductData(SessionCreateParams.LineItem.PriceData.ProductData.builder()
+										.setName(houseName)
 										.build())
+								.setUnitAmount((long) reservationRegisterForm.getAmount())
+								.setCurrency("jpy")
+								.build())
 						.setQuantity(1L)
 						.build())
 				.setMode(SessionCreateParams.Mode.PAYMENT)
