@@ -7,10 +7,12 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.moattravel.entity.House;
+import com.example.moattravel.form.HouseRegisterForm;
 import com.example.moattravel.repository.HouseRepository;
 
 @Controller
@@ -39,5 +41,23 @@ public class AdminHouseController {
 		model.addAttribute("keyword", keyword);
 
 		return "admin/houses/index";
+	}
+
+	//民宿詳細ページ
+	@GetMapping("/{id}")
+	public String show(@PathVariable(name = "id") Integer id,
+			Model model) {
+		House house = houseRepository.getReferenceById(id);//URLのIDと一致するデータを取得する
+
+		model.addAttribute("house", house);
+
+		return "admin/houses/show";
+	}
+
+	@GetMapping("/register")
+	public String register(Model model) {
+		model.addAttribute("houseRegisterForm", new HouseRegisterForm());
+
+		return "admin/houses/register";
 	}
 }
