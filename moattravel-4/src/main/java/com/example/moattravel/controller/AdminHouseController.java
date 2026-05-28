@@ -120,7 +120,7 @@ public class AdminHouseController {
 		return "redirect:/admin/houses";
 	}
 
-	@PostMapping("{id}/delete")
+	@PostMapping("{id}/delete")//民宿情報の削除
 	public String delete(@PathVariable(name = "id") Integer id, RedirectAttributes redirectAttributes) {
 		houseRepository.deleteById(id);
 
