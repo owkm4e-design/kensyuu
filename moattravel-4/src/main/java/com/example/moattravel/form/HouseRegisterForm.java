@@ -16,10 +16,10 @@ public class HouseRegisterForm {
 
 	private MultipartFile imageFile;
 
-	@NotBlank(message = "説明を入力してください。")
+	@NotBlank(message = "説明を入力してください。")//@NotBlankはString専用
 	private String description;
 
-	@NotNull(message = "宿泊料金を入力してください。")
+	@NotNull(message = "宿泊料金を入力してください。")//@NotNull は いろんな型で使える
 	@Min(value = 1, message = "宿泊料金は1円以上に設定してください。")
 	private Integer price;
 
