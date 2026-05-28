@@ -7,6 +7,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -93,6 +94,7 @@ public class AdminHouseController {
 
 		String imageName = house.getImageName();
 
+		//元の画像を直接編集するわけではないためnull
 		HouseEditForm houseEditForm = new HouseEditForm(house.getId(), house.getName(), null, house.getDescription(),
 				house.getPrice(), house.getCapacity(), house.getPostalCode(), house.getAddress(),
 				house.getPhoneNumber());
@@ -101,5 +103,29 @@ public class AdminHouseController {
 		model.addAttribute("houseEditForm", houseEditForm);
 
 		return "admin/houses/edit";
+	}
+
+	@PostMapping("/{id}/update") //既存の民宿情報を更新
+	public String update(@ModelAttribute @Validated HouseEditForm houseEditForm,
+			BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+		if (bindingResult.hasErrors()) {
+			return "admin/houses/edit";
+
+		}
+
+		houseService.update(houseEditForm);
+		redirectAttributes.addFlashAttribute("successMessage", "民宿情報を編集しました。");
+
+		return "redirect:/admin/houses";
+	}
+
+	@PostMapping("{id}/delete")
+	public String delete(@PathVariable(name = "id") Integer id, RedirectAttributes redirectAttributes) {
+		houseRepository.deleteById(id);
+
+		redirectAttributes.addFlashAttribute("successMessage", "民宿を削除しました。");
+
+		return "redirect:/admin/houses";
 	}
 }

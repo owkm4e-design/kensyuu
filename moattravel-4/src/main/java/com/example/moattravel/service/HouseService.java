@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.moattravel.entity.House;
+import com.example.moattravel.form.HouseEditForm;
 import com.example.moattravel.form.HouseRegisterForm;
 import com.example.moattravel.repository.HouseRepository;
 
@@ -22,8 +23,8 @@ public class HouseService {
 		this.houseRepository = houseRepository;
 	}
 
-	@Transactional//正常ならDB保存、例外ならロールバック
-	//データの登録処理
+	@Transactional //正常ならDB保存、例外ならロールバック
+	//データの登録処理,新規作成
 	public void create(HouseRegisterForm houseRegisterForm) {
 		House house = new House();
 		MultipartFile imageFile = houseRegisterForm.getImageFile();
@@ -50,12 +51,37 @@ public class HouseService {
 		houseRepository.save(house);//DIしたRepositoryのsave()
 	}
 
+	@Transactional
+	//既存データの更新
+	public void update(HouseEditForm houseEditForm) {
+		House house = houseRepository.getReferenceById(houseEditForm.getId());
+		MultipartFile imageFile = houseEditForm.getImageFile();
+
+		if (!imageFile.isEmpty()) {
+			String imageName = imageFile.getOriginalFilename();
+			String hashedImageName = generateNewFileName(imageName);
+			Path filePath = Paths.get("src/main/resources/static/storage/" + hashedImageName);
+			copyImageFile(imageFile, filePath);
+			house.setImageName(hashedImageName);
+		}
+
+		house.setName(houseEditForm.getName());
+		house.setDescription(houseEditForm.getDescription());
+		house.setPrice(houseEditForm.getPrice());
+		house.setCapacity(houseEditForm.getCapacity());
+		house.setPostalCode(houseEditForm.getPostalCode());
+		house.setAddress(houseEditForm.getAddress());
+		house.setPhoneNumber(houseEditForm.getPhoneNumber());
+
+		houseRepository.save(house);
+	}
+
 	//UUIDを使って生成したファイル名を返す
 	//ファイル名の変更処理
 	public String generateNewFileName(String fileName) {
 		String[] fileNames = fileName.split("\\.");
 
-		for (int i = 0; i < fileNames.length - 1; i++) {
+		for (int i = 0; i < fileNames.length - 1; i++) {//UUIDを使ってランダムに被らないファイル名をつける
 			fileNames[i] = UUID.randomUUID().toString();
 		}
 		String hashedFileName = String.join(".", fileNames);
