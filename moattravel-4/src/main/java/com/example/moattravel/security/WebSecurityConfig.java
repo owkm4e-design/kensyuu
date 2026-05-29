@@ -9,17 +9,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-@Configuration//設定用のクラス
-@EnableWebSecurity//セキュリティ機能を有効
-@EnableMethodSecurity//メソッドのセキュリティ機能
+@Configuration //設定用のクラス
+@EnableWebSecurity //セキュリティ機能を有効
+@EnableMethodSecurity //メソッドのセキュリティ機能
 public class WebSecurityConfig {
 
-	@Bean//DIコンテナに登録されたインスタンス
+	@Bean //DIコンテナに登録されたインスタンス
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 				.authorizeHttpRequests((requests) -> requests
-						.requestMatchers("/css/**", "/images/**", "/js/**", 
-								"/storage/**", "/","/signup/**").permitAll()//すべてのユーザーに許可
+						.requestMatchers("/css/**", "/images/**", "/js/**",
+								"/storage/**", "/", "/signup/**", "/houses","/houses/{id}")
+						.permitAll()//すべてのユーザーに許可
 						.requestMatchers("/admin/**").hasRole("ADMIN")//管理者のみ許可
 						.anyRequest().authenticated()//上記以外はログインが必要
 				)
