@@ -19,7 +19,7 @@ public class WebSecurityConfig {
 		http
 				.authorizeHttpRequests((requests) -> requests
 						.requestMatchers("/css/**", "/images/**", "/js/**",
-								"/storage/**", "/", "/signup/**", "/houses","/houses/{id}")
+								"/storage/**", "/", "/signup/**", "/houses", "/houses/{id}", "/stripe/webhook")
 						.permitAll()//すべてのユーザーに許可
 						.requestMatchers("/admin/**").hasRole("ADMIN")//管理者のみ許可
 						.anyRequest().authenticated()//上記以外はログインが必要
@@ -34,7 +34,9 @@ public class WebSecurityConfig {
 
 				.logout((logout) -> logout
 						.logoutSuccessUrl("/?loggedout")//ログアウト時のリダイレクト先URL
-						.permitAll());
+						.permitAll())
+				.csrf((csrf) -> csrf
+						.ignoringRequestMatchers("/stripe/webhook"));
 
 		return http.build();
 	}
