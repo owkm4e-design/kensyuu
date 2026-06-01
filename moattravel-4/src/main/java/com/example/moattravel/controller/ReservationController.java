@@ -86,7 +86,7 @@ public class ReservationController {
 		return "redirect:/houses/{id}/reservations/confirm";
 	}
 
-	@GetMapping("/houses{id}/reservations/confirm")
+	@GetMapping("/houses/{id}/reservations/confirm")
 	public String confirm(@PathVariable(name = "id") Integer id,
 			@ModelAttribute ReservationInputForm reservationInputForm,
 			@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
