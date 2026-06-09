@@ -6,54 +6,43 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+
+import org.springframework.data.annotation.Id;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "products")
+@Table(name = "orders")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product {
+public class Order {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	//商品名
-	@Column(name = "product_name")
-	private String productName;
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
-	//原産地名
-	@Column(name = "origin")
-	private String origin;
+	@Column(name = "order_date", insertable = false, updatable = false)
+	private LocalDateTime orderDate;
 
-	//焙煎度合
-	@Column(name = "roast_level")
-	private String roastLevel;
+	@Column(name = "total_price")
+	private Integer totalPrice;
 
-	//商品説明
-	@Column(name = "description", length = 2000)
-	private String description;
+	@Column(name = "status")
+	private String status;
 
-	//金額
-	@Column(name = "price")
-	private Integer price;
-
-	//商品画像ファイル名
-	@Column(name = "image_file_name")
-	private String imageFileName;
-
-	//作成日時
 	@Column(name = "created_at", insertable = false, updatable = false)
 	private LocalDateTime createdAt;
 
-	//更新日時
 	@Column(name = "updated_at", insertable = false, updatable = false)
 	private LocalDateTime updatedAt;
-
 }
