@@ -1,5 +1,5 @@
 package com.example.coffeeshop.service;
-/*
+
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -8,7 +8,6 @@ import com.example.coffeeshop.entity.Product;
 import com.example.coffeeshop.repository.ProductRepository;
 
 import lombok.RequiredArgsConstructor;
-
 
 @Service
 @RequiredArgsConstructor
@@ -20,9 +19,8 @@ public class ProductService {
 		return repository.findAll();
 	}
 
-	public Product findById(Long id) {
+	public Product findById(Integer id) {
 		return repository.findById(id).orElseThrow();
 	}
 
 }
-*/
