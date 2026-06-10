@@ -1,6 +1,8 @@
 package com.example.coffeeshop.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,15 +31,21 @@ public class CartController {
 		return "redirect:/cart";
 	}
 
-	/*
-	@GetMapping("/cart")
+	@GetMapping
 	public String cart(Model model) {
-	
+
 		model.addAttribute("cartItems", cartService.getCartItems());
-	
+
 		model.addAttribute("totalPrice", cartService.getTotalPrice());
-	
+
 		return "cart";
-	}*/
+	}
+
+	@GetMapping("/delete")
+	public String deleteCartItem(@RequestParam Integer cartItemId) {
+		cartService.deleteCartItem(cartItemId);
+
+		return "redirect:/cart";
+	}
 
 }
