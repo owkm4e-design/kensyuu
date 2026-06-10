@@ -53,4 +53,12 @@ public class CartController {
 		return "redirect:/cart";
 	}
 
+	//注文確定
+	@PostMapping("/order")
+	public String complete() {
+		cartService.order();
+
+		return "redirect:/cart/complete";
+	}
+
 }

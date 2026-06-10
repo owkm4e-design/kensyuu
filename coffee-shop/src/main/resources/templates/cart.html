@@ -57,6 +57,14 @@
 		¥<span th:text="${totalPrice}"></span>
 	</h2>
 
+	<form th:action="@{/cart/order}" method="post">
+
+		<button type="submit">
+			注文確定
+		</button>
+
+	</form>
+
 	<a th:href="@{/}">
 		商品一覧へ戻る
 	</a>
