@@ -110,24 +110,31 @@ public class CartService {
 		return total;
 	}
 
+	//注文を確定する
 	@Transactional
 	public void order() {
+		//DBからID＝１のカートを持ってくる
 		Cart cart = cartRepository.findById(1).orElseThrow();
 
+		//そのカートに入ってる明細を全件持ってくる
 		List<CartItem> cartItems = cartItemRepository.findByCart(cart);
 
+		//カートが空だったら処理終了
 		if (cartItems.isEmpty()) {
 			return;
 		}
 
+		//確定用の空のデータ箱を作る
 		Order order = new Order();
 
+		//カートに紐づいているユーザー情報を記録
 		order.setUser(cart.getUser());
-		order.setTotalPrice(getTotalPrice());
-		order.setStatus("注文済");
+		order.setTotalPrice(getTotalPrice());//合計金額
+		order.setStatus("注文済");//ステータスを注文済という文字にセット
 
-		order = orderRepository.save(order);
+		order = orderRepository.save(order);//保存
 
+		//
 		for (CartItem item : cartItems) {
 			OrderDetail detail = new OrderDetail();
 
