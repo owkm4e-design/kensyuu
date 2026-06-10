@@ -134,7 +134,7 @@ public class CartService {
 
 		order = orderRepository.save(order);//保存
 
-		//
+		//商品ごとの細かい明細を順番に作る
 		for (CartItem item : cartItems) {
 			OrderDetail detail = new OrderDetail();
 
@@ -144,9 +144,10 @@ public class CartService {
 
 			detail.setPrice(item.getProduct().getPrice());
 
-			orderDetailRepository.save(detail);
+			orderDetailRepository.save(detail);//商品１個分の明細を保存
 		}
 
+		//注文済みへデータを移行し終わったため、カートの中を空にする（delete）
 		cartItemRepository.deleteAll(cartItems);
 	}
 }

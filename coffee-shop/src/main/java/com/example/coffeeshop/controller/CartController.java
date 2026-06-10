@@ -18,19 +18,23 @@ public class CartController {
 
 	private final CartService cartService;
 
+	//カートに商品を追加する
 	@PostMapping("/add")
 	public String addCart(
 			//@AuthenticationPrincipal LoginUser loginUser,
-			@RequestParam Integer productId,
-			@RequestParam Integer gram,
-			@RequestParam Integer quantity) {
+			@RequestParam Integer productId, //商品番号ID
+			@RequestParam Integer gram, //購入グラム
+			@RequestParam Integer quantity) //購入量
+	{
 
+		//CartServiceクラスに処理を丸投げ、商品IDとグラム、量の情報だけ渡す
 		cartService.addCartItem(productId, gram, quantity);
 		//cartService.addCartItem(loginUser.getUser(), productId, gram, quantity);
 
-		return "redirect:/cart";
+		return "redirect:/cart";//カート画面へ遷移
 	}
 
+	//CartServiceクラスから結果を受取り、表示
 	@GetMapping
 	public String cart(Model model) {
 
@@ -41,9 +45,10 @@ public class CartController {
 		return "cart";
 	}
 
+	//カートから商品を１つ消す
 	@GetMapping("/delete")
 	public String deleteCartItem(@RequestParam Integer cartItemId) {
-		cartService.deleteCartItem(cartItemId);
+		cartService.deleteCartItem(cartItemId);//消したい明細のIDを受け取り、削除
 
 		return "redirect:/cart";
 	}

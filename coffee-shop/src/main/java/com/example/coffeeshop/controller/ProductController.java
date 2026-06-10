@@ -6,26 +6,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.coffeeshop.entity.Product;
-import com.example.coffeeshop.repository.ProductRepository;
 import com.example.coffeeshop.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/products")
+@RequestMapping("/product")
 public class ProductController {
 
 	private final ProductService productService;
-	private final ProductRepository productRepository;
 
-	@GetMapping("/{id}")
+	@GetMapping("/{id}") //商品詳細ページ
 	public String detail(@PathVariable(name = "id") Integer id, Model model) {
-		Product product = productRepository.getReferenceById(id);
-
-		model.addAttribute("product", product);
-		//model.addAttribute(, )
+		//ProductServiceにIDから商品を探すように依頼
+		model.addAttribute("product", productService.findById(id));
 
 		return "product/detail";
 	}
