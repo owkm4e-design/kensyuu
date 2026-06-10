@@ -9,3 +9,6 @@ INSERT INTO roles (id, role_name) VALUES (2, 'ROLE_ADMIN');
 --usersテーブル--
 INSERT INTO users (id, role_id, name, furigana, postal_code, address, phone_number, email, password, enabled) VALUES (1, 1,  '侍 太郎', 'サムライ タロウ', '101-0022', '東京都千代田区神田練塀町300番地', '090-1234-5678', 'taro.samurai@example.com', '$2a$10$2JNjTwZBwo7fprL2X4sv.OEKqxnVtsVQvuXDkI8xVGix.U3W5B7CO',true);
 INSERT INTO users (id, role_id, name, furigana, postal_code, address, phone_number, email, password, enabled) VALUES (2, 2, '侍 花子', 'サムライ ハナコ', '101-0022', '東京都千代田区神田練塀町300番地', '090-1234-5678', 'hanako.samurai@example.com', '$2a$10$2JNjTwZBwo7fprL2X4sv.OEKqxnVtsVQvuXDkI8xVGix.U3W5B7CO', true);
+
+-- cartsテーブル --
+INSERT INTO carts (id, user_id) VALUES (1, 1);
