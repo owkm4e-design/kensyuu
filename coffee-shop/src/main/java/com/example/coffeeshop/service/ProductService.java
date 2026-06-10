@@ -13,14 +13,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProductService {
 
-	private final ProductRepository repository;
+	private final ProductRepository productRepository;
 
 	public List<Product> findAll() {
-		return repository.findAll();
+		return productRepository.findAll();
 	}
 
 	public Product findById(Integer id) {
-		return repository.findById(id).orElseThrow();
+		return productRepository.findById(id).orElseThrow(
+				()-> new RuntimeException("商品が見つかりません"));
 	}
 
 }

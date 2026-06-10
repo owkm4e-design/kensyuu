@@ -1,7 +1,7 @@
 --productsテーブル--
-INSERT INTO products (id,product_name, origin, roast_level, description, price, image_file_name, created_at, updated_at) VALUES (1,'ブラジル サントス', 'ブラジル', '中煎り', 'ナッツのような香ばしさと甘み', 800, 'brazil.jpg', NOW(), NOW());
-INSERT INTO products (id,product_name, origin, roast_level, description, price, image_file_name, created_at, updated_at) VALUES (2,'エチオピア イルガチェフェ', 'エチオピア', '浅煎り', 'フルーティーで華やかな香り', 950, 'ethiopia.jpg', NOW(), NOW());
-INSERT INTO products (id,product_name, origin, roast_level, description, price, image_file_name, created_at, updated_at) VALUES (3,'コロンビア スプレモ', 'コロンビア', '中深煎り', 'バランスが良くコクがある味わい', 900, 'colombia.jpg', NOW(), NOW());
+INSERT INTO products (id,product_name, origin, roast_level, description, price, image_file_name, created_at, updated_at) VALUES (1,'ブラジル サントス', 'ブラジル', '中煎り', 'ナッツのような香ばしさと甘み', 800, 'beans01.jpeg', NOW(), NOW());
+INSERT INTO products (id,product_name, origin, roast_level, description, price, image_file_name, created_at, updated_at) VALUES (2,'エチオピア イルガチェフェ', 'エチオピア', '浅煎り', 'フルーティーで華やかな香り', 950, 'beans02.jpeg', NOW(), NOW());
+INSERT INTO products (id,product_name, origin, roast_level, description, price, image_file_name, created_at, updated_at) VALUES (3,'コロンビア スプレモ', 'コロンビア', '中深煎り', 'バランスが良くコクがある味わい', 900, 'beans03.png', NOW(), NOW());
 --rolesテーブル--
 INSERT INTO roles (id, role_name) VALUES (1, 'ROLE_GENERAL');
 INSERT INTO roles (id, role_name) VALUES (2, 'ROLE_ADMIN');

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>商品詳細</title>
+
+	<style>
+		body {
+			font-family: sans-serif;
+		}
+
+		.container {
+			width: 1000px;
+			margin: auto;
+		}
+
+		.detail {
+			display: flex;
+			gap: 40px;
+			margin-top: 30px;
+		}
+
+		.image img {
+			width: 450px;
+		}
+
+		.info {
+			flex: 1;
+		}
+
+		.price {
+			color: red;
+			font-size: 30px;
+			font-weight: bold;
+		}
+
+		.btn {
+			background: #6f4e37;
+			color: white;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+	</style>
+
+</head>
+
+<body>
+
+	<div class="container">
+
+		<a href="/">← 商品一覧へ戻る</a>
+
+		<div class="detail">
+
+			<div class="image">
+				<img th:src="@{/storage/{file}(file=${product.imageFileName})}">
+			</div>
+
+			<div class="info">
+
+				<h1 th:text="${product.productName}"></h1>
+
+				<p>
+					原産地：
+					<span th:text="${product.origin}"></span>
+				</p>
+
+				<p>
+					焙煎度：
+					<span th:text="${product.roastLevel}"></span>
+				</p>
+
+				<p th:text="${product.description}"></p>
+
+				<p class="price">
+					¥<span th:text="${product.price}"></span>/100g
+				</p>
+
+				<hr>
+
+				<form th:action="@{/cart/add}" method="post">
+
+					<input type="hidden" name="productId" th:value="${product.id}">
+
+					<p>内容量</p>
+
+					<select name="gram">
+						<option value="100">100g</option>
+						<option value="200">200g</option>
+						<option value="300">300g</option>
+						<option value="500">500g</option>
+					</select>
+
+					<p>数量</p>
+
+					<input type="number" name="quantity" value="1" min="1">
+
+					<br><br>
+
+					<button type="submit">
+						カートに追加
+					</button>
+
+				</form>
+				<!--
+				<label>内容量</label>
+
+				<select>
+					<option>100g</option>
+					<option>200g</option>
+					<option>300g</option>
+					<option>500g</option>
+				</select>
+
+				<p>数量</p>
+
+				<input type="number" name="quantity" value="1" min="1">
+
+				<br><br>
+
+				<button class="btn">
+					カートに追加
+				</button>
+-->
+
+			</div>
+
+		</div>
+
+	</div>
+
+</body>
+
+</html>

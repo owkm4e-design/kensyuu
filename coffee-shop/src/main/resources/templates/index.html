@@ -68,7 +68,7 @@
 
 				<div class="card h-100 shadow-sm">
 
-					<img class="card-img-top product-image" th:src="@{/images/{file}(file=${product.imageFileName})}"
+					<img class="card-img-top product-image" th:src="@{/storage/{file}(file=${product.imageFileName})}"
 						alt="商品画像">
 
 					<div class="card-body">
@@ -92,7 +92,7 @@
 						</p>
 
 						<p class="fw-bold text-danger">
-							<span th:text="${product.pricePer100g}">
+							<span th:text="${product.price}">
 								800
 							</span>
 							円 / 100g

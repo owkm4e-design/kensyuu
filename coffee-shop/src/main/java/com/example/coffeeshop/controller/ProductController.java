@@ -18,15 +18,15 @@ import lombok.RequiredArgsConstructor;
 public class ProductController {
 
 	private final ProductService productService;
-	private final ProductRepository repository;
+	private final ProductRepository productRepository;
 
 	@GetMapping("/{id}")
 	public String detail(@PathVariable(name = "id") Integer id, Model model) {
-		Product product = repository.getReferenceById(id);
+		Product product = productRepository.getReferenceById(id);
 
 		model.addAttribute("product", product);
 		//model.addAttribute(, )
 
-		return "products/detail";
+		return "product/detail";
 	}
 }
