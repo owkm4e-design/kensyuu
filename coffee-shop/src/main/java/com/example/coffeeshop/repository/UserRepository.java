@@ -1,12 +1,11 @@
 package com.example.coffeeshop.repository;
 
-import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.coffeeshop.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-	Optional<User> findByEmail(String email);
+	//メールアドレス（ユーザーID）でユーザ-を検索する
+	public User findByEmail(String email);
 }
