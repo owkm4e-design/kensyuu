@@ -4,70 +4,74 @@
 <head>
 	<meta charset="UTF-8">
 	<title>カート</title>
+
+	<link rel="stylesheet" href="/css/style.css">
 </head>
 
-<body>
+<body class="coffee-wrapper">
 
-	<h1>ショッピングカート</h1>
+	<!-- ヘッダー -->
+	<div th:replace="fragment/header :: header"></div>
 
-	<table border="1">
+	<div class="container mt-4">
 
-		<tr>
-			<th>商品名</th>
-			<th>内容量</th>
-			<th>数量</th>
-			<th>価格</th>
-			<th>操作</th>
-		</tr>
+		<h1>ショッピングカート</h1>
 
-		<tr th:each="item : ${cartItems}">
+		<table class="table table-bordered mt-3">
 
-			<td th:text="${item.product.productName}"></td>
+			<tr>
+				<th>商品名</th>
+				<th>内容量</th>
+				<th>数量</th>
+				<th>価格</th>
+				<th>操作</th>
+			</tr>
 
-			<td>
-				<span th:text="${item.gram}"></span>g
-			</td>
+			<tr th:each="item : ${cartItems}">
 
-			<td th:text="${item.quantity}"></td>
+				<td th:text="${item.product.productName}"></td>
 
-			<td>
-				¥<span th:text="${item.product.price * item.quantity}"></span>
-			</td>
+				<td>
+					<span th:text="${item.gram}"></span>g
+				</td>
 
-			<td>
+				<td th:text="${item.quantity}"></td>
 
-				<form th:action="@{/cart/delete}" method="post">
+				<td>
+					¥<span th:text="${item.product.price * item.quantity}"></span>
+				</td>
 
-					<input type="hidden" name="cartItemId" th:value="${item.id}">
+				<td>
+					<form th:action="@{/cart/delete}" method="post">
+						<input type="hidden" name="cartItemId" th:value="${item.id}">
+						<button type="submit" class="btn coffee-btn-danger btn-sm">
+							削除
+						</button>
+					</form>
+				</td>
 
-					<button type="submit">
-						削除
-					</button>
+			</tr>
 
-				</form>
+		</table>
 
-			</td>
+		<h2 class="mt-4">
+			合計：¥<span th:text="${totalPrice}"></span>
+		</h2>
 
-		</tr>
+		<form th:action="@{/cart/order}" method="post">
+			<button type="submit" class="btn coffee-btn w-100 mt-3">
+				注文確定
+			</button>
+		</form>
 
-	</table>
+		<a th:href="@{/}" class="d-block mt-3 coffee-page-link">
+			商品一覧へ戻る
+		</a>
 
-	<h2>
-		合計：
-		¥<span th:text="${totalPrice}"></span>
-	</h2>
+	</div>
 
-	<form th:action="@{/cart/order}" method="post">
-
-		<button type="submit">
-			注文確定
-		</button>
-
-	</form>
-
-	<a th:href="@{/}">
-		商品一覧へ戻る
-	</a>
+	<!-- フッター -->
+	<div th:replace="fragment/footer :: footer"></div>
 
 </body>
 
