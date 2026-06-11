@@ -18,19 +18,19 @@ public class SecurityConfig {
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
+
 	@Bean //オブジェクトをSpring管理にする
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 				//URLごとの権限制御
 				.authorizeHttpRequests((requests) -> requests
-						.requestMatchers("/", "/login", "/signup/**", "/product/**","/images/**",// "/js/**","/css/**","/storage/**", "/stripe/webhook"
-								"/storage/**")
+						.requestMatchers("/", "/login", "/signup/**", "/product/**", "/css/**", "/images/**",
+								"/storage/**")// "/js/**", "/stripe/webhook"
 						.permitAll()//すべてのユーザーに許可
 						.requestMatchers("/admin/**").hasRole("ADMIN")//管理者のみ許可
 						.anyRequest().authenticated()//上記以外はログインが必要
 				)
-				
+
 				//ログイン設定
 				.formLogin((form) -> form
 						.loginPage("/login")//ログインページのURL
@@ -43,12 +43,10 @@ public class SecurityConfig {
 				.logout((logout) -> logout
 						.logoutSuccessUrl("/?loggedout")//ログアウト時のリダイレクト先URL
 						.permitAll())
-				
-				
+
 				//CSRF対策設定
 				.csrf((csrf) -> csrf
 						.ignoringRequestMatchers("/stripe/webhook"));
-				
 
 		return http.build();
 	}
