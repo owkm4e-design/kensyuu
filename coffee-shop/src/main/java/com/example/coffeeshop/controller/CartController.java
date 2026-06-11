@@ -19,7 +19,7 @@ public class CartController {
 	private final CartService cartService;
 
 	//カートに商品を追加する
-	@PostMapping("/add")
+	@PostMapping("/add") //URLが/cart/add
 	public String addCart(
 			//@AuthenticationPrincipal LoginUser loginUser,
 			@RequestParam Integer productId, //商品番号ID
@@ -31,34 +31,41 @@ public class CartController {
 		cartService.addCartItem(productId, gram, quantity);
 		//cartService.addCartItem(loginUser.getUser(), productId, gram, quantity);
 
-		return "redirect:/cart";//カート画面へ遷移
+		return "redirect:/cart";//cartのURLへリダイレクト
 	}
 
 	//CartServiceクラスから結果を受取り、表示
-	@GetMapping
+	@GetMapping //URLが/cart
 	public String cart(Model model) {
 
 		model.addAttribute("cartItems", cartService.getCartItems());
 
 		model.addAttribute("totalPrice", cartService.getTotalPrice());
 
-		return "cart";
+		return "cart";//cart(HTML)
 	}
 
 	//カートから商品を１つ消す
-	@GetMapping("/delete")
+	@PostMapping("/delete") //URLが/cart/delete
 	public String deleteCartItem(@RequestParam Integer cartItemId) {
 		cartService.deleteCartItem(cartItemId);//消したい明細のIDを受け取り、削除
 
-		return "redirect:/cart";
+		return "redirect:/cart";//cartのURLへリダイレクト
 	}
 
 	//注文確定
-	@PostMapping("/order")
+	@PostMapping("/order") //URLが/cart/order
 	public String complete() {
 		cartService.order();
 
-		return "redirect:/cart/complete";
+		return "redirect:/cart/complete";//cart/completeのURLへリダイレクト
+	}
+
+	//注文完了
+	@GetMapping("/complete") //URLが/cart/complete
+	public String completePage() {
+
+		return "order/complete";//order/complete(HTML)
 	}
 
 }

@@ -22,6 +22,6 @@ public class ProductController {
 		//ProductServiceにIDから商品を探すように依頼
 		model.addAttribute("product", productService.findById(id));
 
-		return "product/detail";
+		return "product/detail";//product/detail(HTML)
 	}
 }
