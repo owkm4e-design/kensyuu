@@ -6,5 +6,5 @@ import com.example.coffeeshop.entity.Role;
 
 public interface RoleRepository extends JpaRepository<Role, Integer> {
 
-	public Role findByName(String name);
+	public Role findByRoleName(String roleName);
 }

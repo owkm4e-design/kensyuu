@@ -1,10 +1,14 @@
 package com.example.coffeeshop.controller;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.coffeeshop.service.ProductService;
 
@@ -16,6 +20,18 @@ import lombok.RequiredArgsConstructor;
 public class ProductController {
 
 	private final ProductService productService;
+
+	//商品一覧ページ
+	@GetMapping
+	public String index(@RequestParam(name = "keyword", required = false) String keyword, //キーワード検索
+			@RequestParam(name = "area", required = false) String area, //原産地検索
+			@RequestParam(name = "price", required = false) Integer price, //値段検索
+			@RequestParam(name = "order", required = false) String order,
+			@PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable,
+			Model model) {
+
+		return productService.index(keyword, area, price, order, pageable, model);
+	}
 
 	@GetMapping("/{id}") //商品詳細ページ
 	public String detail(@PathVariable(name = "id") Integer id, Model model) {

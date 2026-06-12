@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<!-- meta（共通head fragment） -->
+	<th:block th:replace="~{fragment/head :: meta}"></th:block>
+
+	<title>商品一覧 | コーヒー豆通販サイト</title>
+
+	<!-- CSS（共通styles fragment） -->
+	<th:block th:replace="~{fragment/head :: styles}"></th:block>
+</head>
+
+<body class="coffee-wrapper">
+
+	<!-- ヘッダー -->
+	<div th:replace="fragment/header :: header"></div>
+
+	<div class="container mt-5">
+
+		<h2 class="mb-4 text-center">商品一覧</h2>
+
+		<!-- 🔍 検索フォーム -->
+		<form method="get" action="/products" class="search-box mb-4">
+
+			<div class="row g-2">
+
+				<div class="col-md-3">
+					<input type="text" name="keyword" class="form-control" placeholder="商品名" th:value="${keyword}">
+				</div>
+
+				<div class="col-md-3">
+					<input type="text" name="area" class="form-control" placeholder="原産地" th:value="${area}">
+				</div>
+
+				<div class="col-md-3">
+					<input type="number" name="price" class="form-control" placeholder="上限価格" th:value="${price}">
+				</div>
+
+				<div class="col-md-2">
+					<select name="order" class="form-control">
+						<option value="">並び順</option>
+						<option value="priceAsc" th:selected="${order == 'priceAsc'}">
+							価格が安い順
+						</option>
+					</select>
+				</div>
+
+				<div class="col-md-1">
+					<button type="submit" class="btn coffee-btn w-100">検索</button>
+				</div>
+
+			</div>
+
+		</form>
+
+		<!-- 🛒 商品一覧 -->
+		<div class="row">
+
+			<div class="col-md-4 mb-4" th:each="product : ${productPage.content}">
+
+				<div class="card h-100 coffee-card-link">
+
+					<img class="card-img-top coffee-product-image"
+						th:src="@{/storage/{file}(file=${product.imageFileName})}">
+
+					<div class="card-body">
+
+						<h5 class="card-title" th:text="${product.productName}"></h5>
+
+						<p class="card-text">
+							原産地：
+							<span th:text="${product.origin}"></span>
+						</p>
+
+						<p class="card-text">
+							焙煎度：
+							<span th:text="${product.roastLevel}"></span>
+						</p>
+
+						<p class="fw-bold text-danger">
+							<span th:text="${product.price}"></span>
+							円 / 100g
+						</p>
+
+					</div>
+
+					<div class="card-footer bg-white border-0">
+						<a th:href="@{/products/{id}(id=${product.id})}" class="btn coffee-btn w-100">
+							商品詳細
+						</a>
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+		<!-- 📄 ページング -->
+		<div class="text-center mt-4">
+
+			<a th:if="${productPage.hasPrevious()}" th:href="@{/products(page=${productPage.number - 1},
+                               keyword=${keyword},
+                               area=${area},
+                               price=${price},
+                               order=${order})}">
+				← 前へ
+			</a>
+
+			<span class="mx-3">
+				[[${productPage.number + 1}]] / [[${productPage.totalPages}]]
+			</span>
+
+			<a th:if="${productPage.hasNext()}" th:href="@{/products(page=${productPage.number + 1},
+                               keyword=${keyword},
+                               area=${area},
+                               price=${price},
+                               order=${order})}">
+				次へ →
+			</a>
+
+		</div>
+
+	</div>
+
+	<!-- フッター -->
+	<div th:replace="fragment/footer :: footer"></div>
+
+</body>
+
+</html>
