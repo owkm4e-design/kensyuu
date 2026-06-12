@@ -43,18 +43,29 @@
 
 					<div class="card-body">
 
-						<h5 th:text="${product.productName}"></h5>
+						<h5 class="card-title" th:text="${product.productName}">
+							商品名
+						</h5>
 
-						<p class="coffee-origin">
-							原産地：<span th:text="${product.origin}"></span>
+						<p class="card-text">
+							原産地：
+							<span th:text="${product.origin}">
+								ブラジル
+							</span>
 						</p>
 
-						<p class="coffee-roast">
-							<span th:text="${product.roastLevel}"></span>
+						<p class="card-text">
+							焙煎度：
+							<span th:text="${product.roastLevel}">
+								中煎り
+							</span>
 						</p>
 
-						<p class="coffee-price">
-							<span th:text="${product.price}"></span>円 / 100g
+						<p class="fw-bold text-danger">
+							<span th:text="${product.price}">
+								800
+							</span>
+							円 / 100g
 						</p>
 
 					</div>
