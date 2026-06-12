@@ -4,8 +4,9 @@
 <head>
 	<th:block th:replace="~{fragment/head :: meta}"></th:block>
 	<title>商品詳細</title>
-	<th:block th:replace="~{fragment/head :: meta}"></th:block>
+	<th:block th:replace="~{fragment/head :: styles}"></th:block>
 
+	<!--
 	<style>
 		body {
 			font-family: sans-serif;
@@ -45,40 +46,49 @@
 			cursor: pointer;
 		}
 	</style>
+	-->
 
 </head>
 
-<body>
+<body class="coffee-wrapper">
+
+	<!-- ヘッダー -->
+	<div th:replace="~{fragment/header :: header}"></div>
+
 
 	<div class="container">
 
-		<a href="/">← 商品一覧へ戻る</a>
+		<a th:href="@{/product}" class="btn btn-outline-secondary mb-4">
+			← 商品一覧へ戻る</a>
 
-		<div class="detail">
+		<div class="row">
 
-			<div class="image">
-				<img th:src="@{/storage/{file}(file=${product.imageFileName})}">
+			<!-- 商品画像 -->
+			<div class="col-md-6">
+				<img th:src="@{/storage/{file}(file=${product.imageFileName})}" th:alt="${product.productName}"
+					class="img-fluid coffee-product-detail-image rounded shadow">
 			</div>
 
-			<div class="info">
+			<!-- 商品情報 -->
+			<div class="col-md-6">
 
-				<h1 th:text="${product.productName}"></h1>
+				<h1 class="mb-3" th:text="${product.productName}"></h1>
 
 				<p>
-					原産地：
+					<strong>原産地：</strong>
 					<span th:text="${product.origin}"></span>
 				</p>
 
 				<p>
-					焙煎度：
+					<strong>焙煎度：</strong>
 					<span th:text="${product.roastLevel}"></span>
 				</p>
 
-				<p th:text="${product.description}"></p>
+				<p class="mb-4" th:text="${product.description}"></p>
 
-				<p class="price">
+				<h3 class="coffee-price">
 					¥<span th:text="${product.price}"></span>/100g
-				</p>
+				</h3>
 
 				<hr>
 
@@ -86,33 +96,37 @@
 
 					<input type="hidden" name="productId" th:value="${product.id}">
 
-					<p>内容量</p>
+					<div class="mb-3">
+						<label class="form-label">内容量</label>
 
-					<select name="gram">
-						<option value="100">100g</option>
-						<option value="200">200g</option>
-						<option value="300">300g</option>
-						<option value="500">500g</option>
-					</select>
+						<select name="gram" class="form-select">
+							<option value="100">100g</option>
+							<option value="200">200g</option>
+							<option value="300">300g</option>
+							<option value="500">500g</option>
+						</select>
+					</div>
 
-					<p>数量</p>
+					<div class="mb-3">
+						<label class="form-label">数量</label>
 
-					<input type="number" name="quantity" value="1" min="1">
+						<input type="number" name="quantity" value="1" min="1" class="form-control">
+					</div>
 
-					<br><br>
-
-					<button type="submit">
+					<button type="submit" class="btn coffee-btn">
 						カートに追加
 					</button>
 
 				</form>
-
 
 			</div>
 
 		</div>
 
 	</div>
+
+	<!-- フッター -->
+	<div th:replace="~{fragment/footer :: footer}"></div>
 
 </body>
 

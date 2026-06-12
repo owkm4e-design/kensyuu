@@ -6,7 +6,7 @@
 
 	<title>カート</title>
 
-	<th:block th:replace="~{fragment/head :: meta}"></th:block>
+	<th:block th:replace="~{fragment/head :: styles}"></th:block>
 </head>
 
 <body class="coffee-wrapper">
@@ -60,7 +60,7 @@
 		</h2>
 
 		<form th:action="@{/cart/order}" method="post">
-			<button type="submit" class="btn coffee-btn w-100 mt-3">
+			<button type="submit" class="btn coffee-btn">
 				注文確定
 			</button>
 		</form>
