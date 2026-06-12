@@ -40,7 +40,7 @@ public class AuthController {
 			RedirectAttributes redirectAttributes) {
 
 		//登録済アドレスだった時エラーを表示
-		if (userService.isEmailRegisterd(signupForm.getEmail())) {
+		if (userService.isEmailRegistered(signupForm.getEmail())) {
 			FieldError fieldError = new FieldError(bindingResult.getObjectName(), "email", "すでに登録済のメールアドレスです");
 			bindingResult.addError(fieldError);
 		}

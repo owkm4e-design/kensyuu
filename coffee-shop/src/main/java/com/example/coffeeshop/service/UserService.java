@@ -44,7 +44,7 @@ public class UserService {
 	}
 
 	//メアド確認
-	public boolean isEmailRegisterd(String email) {
+	public boolean isEmailRegistered(String email) {
 		User user = userRepository.findByEmail(email);
 
 		return user != null;
