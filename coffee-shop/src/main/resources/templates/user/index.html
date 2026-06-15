@@ -89,6 +89,47 @@
 
 					</div>
 
+					<!-- 注文履歴 -->
+					<div class="row justify-content-center mt-5">
+
+						<div class="col-md-8">
+
+							<div class="card shadow-sm">
+
+								<div class="card-body">
+
+									<h4 class="card-title mb-4">
+										注文履歴
+									</h4>
+
+									<table class="table">
+
+										<thead>
+											<tr>
+												<th>注文日</th>
+												<th>合計金額</th>
+												<th>ステータス</th>
+											</tr>
+										</thead>
+
+										<tbody>
+											<tr th:each="order : ${orders}">
+												<td th:text="${#temporals.format(order.createdAt, 'yyyy/MM/dd')}"></td>
+												<td th:text="${order.totalPrice} + ' 円'"></td>
+												<td th:text="${order.status}"></td>
+											</tr>
+										</tbody>
+
+									</table>
+
+								</div>
+
+							</div>
+
+						</div>
+
+					</div>
+
 				</div>
 
 			</div>

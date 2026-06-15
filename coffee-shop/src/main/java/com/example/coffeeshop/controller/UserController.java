@@ -1,5 +1,7 @@
 package com.example.coffeeshop.controller;
 
+import java.util.List;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,10 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.coffeeshop.entity.Order;
 import com.example.coffeeshop.entity.User;
 import com.example.coffeeshop.form.UserEditForm;
 import com.example.coffeeshop.repository.UserRepository;
 import com.example.coffeeshop.security.UserDetailsImpl;
+import com.example.coffeeshop.service.OrderService;
 import com.example.coffeeshop.service.UserService;
 
 import lombok.AllArgsConstructor;
@@ -27,6 +31,7 @@ public class UserController {
 
 	private final UserRepository userRepository;
 	private final UserService userService;
+	private final OrderService orderService;
 
 	@GetMapping
 	//認証済ユーザーの情報取得
@@ -34,7 +39,10 @@ public class UserController {
 		//service経由にする
 		User user = userService.findById(userDetailsImpl.getUser().getId());
 
+		List<Order> orderlList = orderService.getOrderList(user);
+
 		model.addAttribute("user", user);
+		model.addAttribute("orderList", orderlList);
 
 		return "user/index";
 	}
