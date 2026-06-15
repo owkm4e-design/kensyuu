@@ -3,19 +3,44 @@
 	<nav class="navbar navbar-expand-lg coffee-navbar">
 		<div class="container">
 
-			<!-- ロゴ -->
-			<a class="navbar-brand" href="/">
+			<a class="navbar-brand" th:href="@{/}">
 				Coffee Shop
 			</a>
 
-			<!-- メニュー -->
-			<div class="ms-auto">
-				<a href="/products" class="me-3">商品一覧</a>
-				<a href="/cart" class="me-3">カート</a>
-				<a href="/login">ログイン</a>
+			<div class="ms-auto d-flex align-items-center">
+
+				<a th:href="@{/products}" class="me-3">
+					商品一覧
+				</a>
+
+				<a th:href="@{/cart}" class="me-3">
+					カート
+				</a>
+
+				<a th:href="@{/login}" class="me-3" sec:authorize="isAnonymous()">
+					ログイン
+				</a>
+
+				<a th:href="@{/signup}" class="me-3" sec:authorize="isAnonymous()">
+					会員登録
+				</a>
+
+				<a th:href="@{/user}" class="me-3" sec:authorize="isAuthenticated()">
+					マイページ
+				</a>
+
+				<form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+
+					<button type="submit" class="btn btn-link p-0 text-decoration-none">
+						ログアウト
+					</button>
+
+				</form>
+
 			</div>
 
 		</div>
+
 	</nav>
 
 </header>

@@ -87,7 +87,7 @@ public class CartService {
 	
 	}*/
 
-	//カートから所品を削除する
+	//カートから商品を削除する
 	public void deleteCartItem(Integer cartItemId) {
 		cartItemRepository.deleteById(cartItemId);
 	}
@@ -97,6 +97,26 @@ public class CartService {
 		Cart cart = cartRepository.findById(1).orElseThrow();
 
 		return cartItemRepository.findByCart(cart);
+	}
+
+	//数量変更
+	@Transactional
+	public void decreaseQuantity(Integer cartItemId) {
+		//IDをもとに対象の商品を検索する
+		CartItem cartItem = cartItemRepository.findById(cartItemId).orElseThrow();
+
+		if (cartItem.getQuantity() > 1) {//2個以上あれば個数を１つ減らす
+			cartItem.setQuantity(cartItem.getQuantity() - 1);
+		} else {
+			cartItemRepository.delete(cartItem);//残り１個ならカートから削除する
+		}
+	}
+
+	//数量変更後
+	public void updateQuantity(Integer cartItemId, Integer quantity) {
+		CartItem cartItem = cartItemRepository.findById(cartItemId).orElseThrow();
+		cartItem.setQuantity(quantity);
+		cartItemRepository.save(cartItem);
 	}
 
 	//合計金額の計算

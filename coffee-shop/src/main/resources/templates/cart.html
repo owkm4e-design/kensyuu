@@ -43,6 +43,25 @@
 				</td>
 
 				<td>
+
+					<form th:action="@{/cart/update}" method="post" class="d-flex">
+
+						<input type="hidden" name="cartItemId" th:value="${item.id}">
+
+						<input type="number" name="quantity" min="1" th:value="${item.quantity}"
+							class="form-control me-2" style="width:80px;">
+
+						<button type="submit" class="btn coffee-btn btn-sm">
+
+							変更
+
+						</button>
+
+					</form>
+
+				</td>
+
+				<td>
 					<form th:action="@{/cart/delete}" method="post">
 						<input type="hidden" name="cartItemId" th:value="${item.id}">
 						<button type="submit" class="btn coffee-btn-danger btn-sm">
@@ -50,6 +69,8 @@
 						</button>
 					</form>
 				</td>
+
+
 
 			</tr>
 

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.coffeeshop.repository.CartItemRepository;
 import com.example.coffeeshop.service.CartService;
 
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/cart")
 public class CartController {
 
+	private final CartItemRepository cartItemRepository;
 	private final CartService cartService;
 
 	//カートに商品を追加する
@@ -51,6 +53,22 @@ public class CartController {
 		cartService.deleteCartItem(cartItemId);//消したい明細のIDを受け取り、削除
 
 		return "redirect:/cart";//cartのURLへリダイレクト
+	}
+
+	//カートに入った商品の数量変更
+	@PostMapping("/decrease")
+	public String decrease(@RequestParam Integer cartItemId) {
+		cartService.decreaseQuantity(cartItemId);//数量変更のメソッドを呼び出す
+		return "redirect:/cart";//カートにリダイレクトさせる
+	}
+
+	//数量変更後の更新画面
+	@PostMapping("/update")
+	public String update(@RequestParam Integer cartItemId, @RequestParam Integer quantity) {
+
+		cartService.updateQuantity(cartItemId, quantity);
+
+		return "redirect:/cart";
 	}
 
 	//注文確定
