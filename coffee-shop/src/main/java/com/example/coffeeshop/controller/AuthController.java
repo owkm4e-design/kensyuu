@@ -42,24 +42,24 @@ public class AuthController {
 		//登録済アドレスだった時エラーを表示
 		if (userService.isEmailRegistered(signupForm.getEmail())) {
 			FieldError fieldError = new FieldError(bindingResult.getObjectName(), "email", "すでに登録済のメールアドレスです");
-			bindingResult.addError(fieldError);
+			bindingResult.addError(fieldError);//エラー内容格納
 		}
 
 		//パスワード不一致
 		if (!userService.isSamePassword(signupForm.getPassword(), signupForm.getPasswordConfirmation())) {
 			FieldError fieldError = new FieldError(bindingResult.getObjectName(), "password", "パスワードが不一致です。");
-			bindingResult.addError(fieldError);
+			bindingResult.addError(fieldError);//エラー内容格納
 		}
 
 		//エラーがあった場合登録ページに戻る
-		if (bindingResult.hasErrors()) {
+		if (bindingResult.hasErrors()) {//エラー内容格納されてたら
 			return "auth/signup";
 		}
 
 		userService.create(signupForm);
-		redirectAttributes.addFlashAttribute("successMessage", "会員登録完了");
+		redirectAttributes.addFlashAttribute("successMessage", "会員登録完了");//一度だけ表示
 
-		return "redirect:/";
+		return "redirect:/";//トップページにリダイレクト
 	}
 
 }

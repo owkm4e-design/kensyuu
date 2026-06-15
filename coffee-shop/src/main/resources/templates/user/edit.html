@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<th:block th:replace="~{fragment/head :: meta}"></th:block>
+
+	<title>会員情報編集 | コーヒー豆通販サイト</title>
+
+	<th:block th:replace="~{fragment/head :: styles}"></th:block>
+</head>
+
+<body class="coffee-wrapper">
+
+	<!-- ヘッダー -->
+	<div th:replace="~{fragment/header :: header}"></div>
+
+	<div class="container mt-5">
+
+		<h2 class="mb-4 text-center">
+			会員情報編集
+		</h2>
+
+		<div class="row justify-content-center">
+
+			<div class="col-md-8">
+
+				<div class="card shadow-sm">
+
+					<div class="card-body">
+
+						<form th:action="@{/user/edit}" th:object="${userEditForm}" method="post">
+
+							<!-- 氏名 -->
+							<div class="mb-3">
+								<label class="form-label">氏名</label>
+								<input type="text" class="form-control" th:field="*{name}">
+								<div class="text-danger" th:errors="*{name}">
+								</div>
+							</div>
+
+							<!-- フリガナ -->
+							<div class="mb-3">
+								<label class="form-label">フリガナ</label>
+								<input type="text" class="form-control" th:field="*{furigana}">
+								<div class="text-danger" th:errors="*{furigana}">
+								</div>
+							</div>
+
+							<!-- 郵便番号 -->
+							<div class="mb-3">
+								<label class="form-label">郵便番号</label>
+								<input type="text" class="form-control" th:field="*{postalCode}">
+								<div class="text-danger" th:errors="*{postalCode}">
+								</div>
+							</div>
+
+							<!-- 住所 -->
+							<div class="mb-3">
+								<label class="form-label">住所</label>
+								<input type="text" class="form-control" th:field="*{address}">
+								<div class="text-danger" th:errors="*{address}">
+								</div>
+							</div>
+
+							<!-- 電話番号 -->
+							<div class="mb-3">
+								<label class="form-label">電話番号</label>
+								<input type="text" class="form-control" th:field="*{phoneNumber}">
+								<div class="text-danger" th:errors="*{phoneNumber}">
+								</div>
+							</div>
+
+							<!-- メールアドレス -->
+							<div class="mb-3">
+								<label class="form-label">メールアドレス</label>
+								<input type="email" class="form-control" th:field="*{email}">
+								<div class="text-danger" th:errors="*{email}">
+								</div>
+							</div>
+
+							<div class="d-flex justify-content-between mt-4">
+
+								<a th:href="@{/user}" class="btn btn-secondary">
+									戻る
+								</a>
+
+								<button type="submit" class="btn coffee-btn">
+									更新する
+								</button>
+
+							</div>
+
+						</form>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<!-- フッター -->
+	<div th:replace="~{fragment/footer :: footer}"></div>
+
+</body>
+
+</html>
