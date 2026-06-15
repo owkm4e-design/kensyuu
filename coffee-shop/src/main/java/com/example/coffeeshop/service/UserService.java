@@ -37,7 +37,7 @@ public class UserService {
 
 		user.setPassword(passwordEncoder.encode(signupForm.getPassword()));
 
-		user.setEnabled(true);
+		user.setEnabled(false);
 
 		user.setRole(role);
 
@@ -85,7 +85,7 @@ public class UserService {
 		return !userEditForm.getEmail().equals(currentUser.getEmail());
 	}
 
-	//
+	//ID検索
 	public User findById(Integer id) {
 		return userRepository.findById(id).orElseThrow();
 	}
@@ -93,5 +93,12 @@ public class UserService {
 	//パスワード確認
 	public boolean isSamePassword(String password, String passwordConfirmation) {
 		return password.equals(passwordConfirmation);
+	}
+
+	//ユーザーを有効にする
+	@Transactional
+	public void enableUser(User user) {
+		user.setEnabled(true);
+		userRepository.save(user);
 	}
 }
