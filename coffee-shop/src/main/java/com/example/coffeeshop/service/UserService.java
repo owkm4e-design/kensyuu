@@ -44,19 +44,23 @@ public class UserService {
 		return userRepository.save(user);
 	}
 
-	//
+	//ユーザー情報の取得
 	public UserEditForm createUserEditForm(Integer userId) {
+		//Idから検索してユーザー情報を持ってくる
 		User user = findById(userId);
 
+		//それぞれの型に詰めてFormに返す
 		return new UserEditForm(user.getId(), user.getName(), user.getFurigana(), user.getPostalCode(),
 				user.getAddress(), user.getPhoneNumber(), user.getEmail());
 	}
 
-	//
+	//変更内容の保存
 	@Transactional
 	public void update(UserEditForm userEditForm) {
+		//画面から送られてきたIDをもとにユーザーデータを１件取得
 		User user = userRepository.findById(userEditForm.getId()).orElseThrow();
 
+		//データを上書きする
 		user.setName(userEditForm.getName());
 		user.setFurigana(userEditForm.getFurigana());
 		user.setPostalCode(userEditForm.getPostalCode());
