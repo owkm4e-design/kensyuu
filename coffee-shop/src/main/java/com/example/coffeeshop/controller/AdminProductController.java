@@ -29,7 +29,7 @@ public class AdminProductController {
 
 		model.addAttribute("products", products);
 
-		return "admin/product/index";
+		return "admin/products/index";
 	}
 
 	@GetMapping("/{id}")
@@ -39,7 +39,7 @@ public class AdminProductController {
 
 		model.addAttribute("product", product);
 
-		return "admin/product/show";
+		return "admin/products/show";
 
 	}
 
@@ -48,6 +48,6 @@ public class AdminProductController {
 	public String register(Model model) {
 		model.addAttribute("productRegisterForm", new ProductRegisterForm());
 
-		return "admin/product/register";
+		return "admin/products/register";
 	}
 }
