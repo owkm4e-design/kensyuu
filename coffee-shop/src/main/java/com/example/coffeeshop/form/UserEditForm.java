@@ -1,12 +1,15 @@
 package com.example.coffeeshop.form;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class UserEditForm {
 
@@ -29,6 +32,7 @@ public class UserEditForm {
 	private String phoneNumber;
 
 	@NotBlank(message = "メールアドレスを入力してください。")
+	@Email(message = "メールアドレスは正しい形式で入力してください。")
 	private String email;
 
 }

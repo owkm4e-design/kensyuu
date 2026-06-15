@@ -20,6 +20,19 @@
 			マイページ
 		</h2>
 
+		<!-- 更新成功メッセージ -->
+		<div class="row justify-content-center" th:if="${successMessage}">
+
+			<div class="col-md-8">
+
+				<div class="alert alert-success">
+					<span th:text="${successMessage}"></span>
+				</div>
+
+			</div>
+
+		</div>
+
 		<div class="row justify-content-center">
 
 			<div class="col-md-8">

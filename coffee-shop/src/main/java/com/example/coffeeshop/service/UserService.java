@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.example.coffeeshop.entity.Role;
 import com.example.coffeeshop.entity.User;
 import com.example.coffeeshop.form.SignupForm;
+import com.example.coffeeshop.form.UserEditForm;
 import com.example.coffeeshop.repository.RoleRepository;
 import com.example.coffeeshop.repository.UserRepository;
 
@@ -38,9 +39,33 @@ public class UserService {
 
 		user.setEnabled(true);
 
-		user.setRole(roleRepository.findById(1).orElseThrow());
+		user.setRole(role);
 
 		return userRepository.save(user);
+	}
+
+	//
+	public UserEditForm createUserEditForm(Integer userId) {
+		User user = findById(userId);
+
+		return new UserEditForm(user.getId(), user.getName(), user.getFurigana(), user.getPostalCode(),
+				user.getAddress(), user.getPhoneNumber(), user.getEmail());
+	}
+
+	//
+	@Transactional
+	public void update(UserEditForm userEditForm) {
+		User user = userRepository.findById(userEditForm.getId()).orElseThrow();
+
+		user.setName(userEditForm.getName());
+		user.setFurigana(userEditForm.getFurigana());
+		user.setPostalCode(userEditForm.getPostalCode());
+		user.setAddress(userEditForm.getAddress());
+		user.setPhoneNumber(userEditForm.getPhoneNumber());
+		user.setEmail(userEditForm.getEmail());
+
+		userRepository.save(user);
+
 	}
 
 	//メアド確認
@@ -48,6 +73,17 @@ public class UserService {
 		User user = userRepository.findByEmail(email);
 
 		return user != null;
+	}
+
+	//メアド変更されたかチェック
+	public boolean isEmailChanged(UserEditForm userEditForm) {
+		User currentUser = userRepository.getReferenceById(userEditForm.getId());
+		return !userEditForm.getEmail().equals(currentUser.getEmail());
+	}
+
+	//
+	public User findById(Integer id) {
+		return userRepository.findById(id).orElseThrow();
 	}
 
 	//パスワード確認
