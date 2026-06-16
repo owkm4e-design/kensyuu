@@ -45,6 +45,7 @@ public class UserService {
 		return userRepository.save(user);
 	}
 
+	//会員情報の更新
 	@Transactional
 	public void update(UserEditForm userEditForm) {
 		User user = userRepository.getReferenceById(userEditForm.getId());
@@ -60,7 +61,7 @@ public class UserService {
 	}
 
 	//メールアドレスが登録済かチェック
-	public boolean isEmailRegisterd(String email) {
+	public boolean isEmailRegistered(String email) {
 		User user = userRepository.findByEmail(email);//同じアドレスがないか探す
 		return user != null;//検索結果がなしであれば未登録
 	}
@@ -70,11 +71,32 @@ public class UserService {
 		return password.equals(passwordConfirmation);
 	}
 
-	//ユーザーを有効にする
+	//ユーザーを有効にする(利用再開と共通)
 	@Transactional
 	public void enableUser(User user) {
 		user.setEnabled(true);
 		userRepository.save(user);
+	}
+
+	//利用停止
+	@Transactional
+	public void disableUser(Integer userId) {
+		User user = findById(userId);
+		user.setEnabled(false);
+		//userRepository.save(user);
+	}
+
+	//利用再開
+	/*@Transactional
+	public void enableUser(Integer userId) {
+		User user =findById(userId);
+		user.setEnabled(true);
+		userRepository.save(user);
+	}*/
+
+	//管理用のID検索
+	public User findById(Integer id) {
+		return userRepository.findById(id).orElseThrow();
 	}
 
 	//メールアドレスが変更されたかチェックする

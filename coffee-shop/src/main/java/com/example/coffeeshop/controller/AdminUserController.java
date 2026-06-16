@@ -8,11 +8,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.coffeeshop.entity.User;
 import com.example.coffeeshop.repository.UserRepository;
+import com.example.coffeeshop.service.UserService;
 
 import lombok.AllArgsConstructor;
 
@@ -22,6 +24,7 @@ import lombok.AllArgsConstructor;
 public class AdminUserController {
 
 	private final UserRepository userRepository;
+	private final UserService userService;
 
 	//ユーザー一覧（管理者）
 	@GetMapping
@@ -54,6 +57,14 @@ public class AdminUserController {
 		model.addAttribute("user", user);
 
 		return "admin/users/show";
+	}
+
+	@PostMapping("/{id}/enable")
+	public String enable(@PathVariable Integer id) {
+		User user = userService.findById(id);
+		userService.enableUser(user);
+
+		return "redirect:/admin/users";
 	}
 
 }
