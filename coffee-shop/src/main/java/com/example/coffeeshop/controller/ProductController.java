@@ -32,8 +32,7 @@ public class ProductController {
 			@PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable,
 			Model model) {
 
-		Page<Product> productPage =
-				productService.search(keyword, area, price, order, pageable);
+		Page<Product> productPage = productService.search(keyword, area, price, order, pageable);
 
 		model.addAttribute("productPage", productPage);
 		model.addAttribute("keyword", keyword);

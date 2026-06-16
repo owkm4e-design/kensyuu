@@ -1,16 +1,22 @@
 package com.example.coffeeshop.service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
+
+import jakarta.transaction.Transactional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.coffeeshop.entity.Product;
+import com.example.coffeeshop.form.ProductEditForm;
+import com.example.coffeeshop.form.ProductRegisterForm;
 import com.example.coffeeshop.repository.ProductRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -21,63 +27,117 @@ public class ProductService {
 
 	private final ProductRepository productRepository;
 
-	//商品一覧ページ
-	public String index(
-			@RequestParam(name = "keyword", required = false) String keyword, //キーワード検索
-			@RequestParam(name = "area", required = false) String area, //原産地検索
-			@RequestParam(name = "price", required = false) Integer price, //値段検索
-			@RequestParam(name = "order", required = false) String order,
-			@PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable,
-			Model model) {
+	//商品の登録機能
+	@Transactional
+	public void create(ProductRegisterForm productRegisterForm) {
+		Product product = new Product();
+		MultipartFile imageFile = productRegisterForm.getImageFile();
 
-		Page<Product> productPage;
+		if (!imageFile.isEmpty()) {
+			String imageName = imageFile.getOriginalFilename();
+			String hashedImageName = generateNewFileName(imageName);
+
+			Path filePath = Paths.get("/src/main/resources/static/storage" + hashedImageName);
+
+			copyImageFile(imageFile, filePath);
+
+			product.setImageFileName(hashedImageName);
+		}
+
+		product.setProductName(productRegisterForm.getProductName());
+		product.setOrigin(productRegisterForm.getOrigin());
+		product.setRoastLevel(productRegisterForm.getRoastLevel());
+		product.setDescription(productRegisterForm.getDescription());
+		product.setPrice(productRegisterForm.getPrice());
+
+		productRepository.save(product);
+
+	}
+
+	//商品の更新
+	@Transactional
+	public void update(ProductEditForm productEditForm) {
+		Product product = productRepository.getReferenceById(productEditForm.getId());
+		MultipartFile imageFile = productEditForm.getImageFile();
+
+		if (!imageFile.isEmpty()) {
+			String imageName = imageFile.getOriginalFilename();
+			String hashedImageName = generateNewFileName(imageName);
+			Path filePath = Paths.get("/src/main/resources/static/storage/" + hashedImageName);
+			copyImageFile(imageFile, filePath);
+			product.setImageFileName(hashedImageName);
+
+		}
+	}
+
+	//ファイル名の変更処理
+	public String generateNewFileName(String fileName) {
+		String[] fileNames = fileName.split("\\.");
+
+		for (int i = 0; i < fileNames.length - 1; i++) {
+			fileNames[i] = UUID.randomUUID().toString();
+		}
+		String hashedFileName = String.join(".", fileNames);
+
+		return hashedFileName;
+	}
+
+	//ファイルのコピー処理
+	public void copyImageFile(MultipartFile imageFile, Path filePath) {
+		try {
+			Files.copy(imageFile.getInputStream(), filePath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	//商品の検索機能
+	public Page<Product> search(
+			String keyword,
+			String area,
+			Integer price,
+			String order,
+			Pageable pageable) {
 
 		if (keyword != null && !keyword.isEmpty()) {
 
 			if ("priceAsc".equals(order)) {
-				productPage = productRepository
+				return productRepository
 						.findByProductNameLikeOrderByPriceAsc("%" + keyword + "%", pageable);
 			} else {
-				productPage = productRepository
+				return productRepository
 						.findByProductNameLikeOrderByCreatedAtDesc("%" + keyword + "%", pageable);
 			}
 
 		} else if (area != null && !area.isEmpty()) {
 
 			if ("priceAsc".equals(order)) {
-				productPage = productRepository
+				return productRepository
 						.findByOriginLikeOrderByPriceAsc("%" + area + "%", pageable);
 			} else {
-				productPage = productRepository
+				return productRepository
 						.findByOriginLikeOrderByCreatedAtDesc("%" + area + "%", pageable);
 			}
 
 		} else if (price != null) {
 
 			if ("priceAsc".equals(order)) {
-				productPage = productRepository
+				return productRepository
 						.findByPriceLessThanEqualOrderByPriceAsc(price, pageable);
 			} else {
-				productPage = productRepository
+				return productRepository
 						.findByPriceLessThanEqualOrderByCreatedAtDesc(price, pageable);
 			}
 
 		} else {
 
 			if ("priceAsc".equals(order)) {
-				productPage = productRepository.findAllByOrderByPriceAsc(pageable);
+				return productRepository.findAllByOrderByPriceAsc(pageable);
 			} else {
-				productPage = productRepository.findAllByOrderByCreatedAtDesc(pageable);
+				return productRepository.findAllByOrderByCreatedAtDesc(pageable);
 			}
 		}
 
-		model.addAttribute("productPage", productPage);
-		model.addAttribute("keyword", keyword);
-		model.addAttribute("area", area);
-		model.addAttribute("price", price);
-		model.addAttribute("order", order);
-
-		return "product/index";
 	}
 
 	//複数の商品が並んだリストをコントローラに返す
