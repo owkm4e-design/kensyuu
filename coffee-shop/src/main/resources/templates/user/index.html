@@ -33,6 +33,7 @@
 
 		</div>
 
+		<!--会員情報-->
 		<div class="row justify-content-center">
 
 			<div class="col-md-8">
@@ -88,45 +89,45 @@
 						</div>
 
 					</div>
+				</div>
+			</div>
 
-					<!-- 注文履歴 -->
-					<div class="row justify-content-center mt-5">
+		</div>
 
-						<div class="col-md-8">
+		<!-- 注文履歴 -->
+		<div class="row justify-content-center mt-5">
 
-							<div class="card shadow-sm">
+			<div class="col-md-8">
 
-								<div class="card-body">
+				<div class="card shadow-sm">
 
-									<h4 class="card-title mb-4">
-										注文履歴
-									</h4>
+					<div class="card-body">
 
-									<table class="table">
+						<h4 class="card-title mb-4">
+							注文履歴
+						</h4>
 
-										<thead>
-											<tr>
-												<th>注文日</th>
-												<th>合計金額</th>
-												<th>ステータス</th>
-											</tr>
-										</thead>
+						<table class="table">
 
-										<tbody>
-											<tr th:each="order : ${orders}">
-												<td th:text="${#temporals.format(order.createdAt, 'yyyy/MM/dd')}"></td>
-												<td th:text="${order.totalPrice} + ' 円'"></td>
-												<td th:text="${order.status}"></td>
-											</tr>
-										</tbody>
+							<thead>
+								<tr>
+									<th>注文日</th>
+									<th>合計金額</th>
+									<th>ステータス</th>
+								</tr>
+							</thead>
 
-									</table>
+							<tbody>
+								<tr th:each="order : ${orderList}">
+									<td th:text="${#temporals.format(order.createdAt, 'yyyy/MM/dd')}"></td>
+									<td th:text="${order.totalPrice} + ' 円'"></td>
+									<td th:text="${order.status}"></td>
+									<td> <a th:href="@{/orders/{id}(id=${order.id})}"
+											class="btn btn-sm btn-outline-secondary"> 詳細 </a> </td>
+								</tr>
+							</tbody>
 
-								</div>
-
-							</div>
-
-						</div>
+						</table>
 
 					</div>
 
@@ -135,8 +136,8 @@
 			</div>
 
 		</div>
-
 	</div>
+
 
 	<!-- フッター -->
 	<div th:replace="~{fragment/footer :: footer}"></div>

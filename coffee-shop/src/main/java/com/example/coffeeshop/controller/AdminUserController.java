@@ -51,7 +51,7 @@ public class AdminUserController {
 	@GetMapping("/{id}")
 	public String show(@PathVariable(name = "id") Integer id, Model model) {
 		//IDをもとに検索
-		User user = userRepository.getReferenceById(id);
+		User user = userService.findById(id);
 
 		//
 		model.addAttribute("user", user);
@@ -69,7 +69,7 @@ public class AdminUserController {
 	}
 
 	//利用停止
-	@PostMapping("{id}/disable")
+	@PostMapping("/{id}/disable")
 	public String disable(@PathVariable Integer id) {
 		userService.disableUser(id);
 

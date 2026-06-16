@@ -19,4 +19,8 @@ public class OrderService {
 	public List<Order> getOrderList(User user) {
 		return orderRepository.findByUserOrderByCreatedAtDesc(user);
 	}
+
+	public Order findById(Integer id) {
+		return orderRepository.findById(id).orElseThrow();
+	}
 }
