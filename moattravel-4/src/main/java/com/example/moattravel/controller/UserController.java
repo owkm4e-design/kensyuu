@@ -54,7 +54,7 @@ public class UserController {
 	public String update(@ModelAttribute @Validated UserEditForm userEditForm,
 			BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 		//
-		if (userService.isEmailChanged(userEditForm) && userService.isEmailRegisterd(userEditForm.getEmail())) {
+		if (userService.isEmailChanged(userEditForm) && userService.isEmailRegistered(userEditForm.getEmail())) {
 			FieldError fieldError = new FieldError(bindingResult.getObjectName(), "email", "すでに登録済のメールアドレスです。");
 			bindingResult.addError(fieldError);
 		}

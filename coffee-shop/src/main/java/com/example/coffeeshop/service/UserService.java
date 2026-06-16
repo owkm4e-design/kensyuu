@@ -101,4 +101,21 @@ public class UserService {
 		user.setEnabled(true);
 		userRepository.save(user);
 	}
+
+	//利用停止
+	@Transactional
+	public void disableUser(Integer userId) {
+		User user = findById(userId);
+		user.setEnabled(false);
+		//userRepository.save(user);
+	}
+
+	//利用再開
+	/*@Transactional
+	public void enableUser(Integer userId) {
+		User user =findById(userId);
+		user.setEnabled(true);
+		userRepository.save(user);
+	}*/
+
 }

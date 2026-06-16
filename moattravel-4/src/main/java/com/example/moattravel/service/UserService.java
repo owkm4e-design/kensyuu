@@ -78,27 +78,6 @@ public class UserService {
 		userRepository.save(user);
 	}
 
-	//利用停止
-	@Transactional
-	public void disableUser(Integer userId) {
-		User user = findById(userId);
-		user.setEnabled(false);
-		//userRepository.save(user);
-	}
-
-	//利用再開
-	/*@Transactional
-	public void enableUser(Integer userId) {
-		User user =findById(userId);
-		user.setEnabled(true);
-		userRepository.save(user);
-	}*/
-
-	//管理用のID検索
-	public User findById(Integer id) {
-		return userRepository.findById(id).orElseThrow();
-	}
-
 	//メールアドレスが変更されたかチェックする
 	public boolean isEmailChanged(UserEditForm userEditForm) {
 		User currentUser = userRepository.getReferenceById(userEditForm.getId());

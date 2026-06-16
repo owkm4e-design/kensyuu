@@ -59,10 +59,19 @@ public class AdminUserController {
 		return "admin/users/show";
 	}
 
+	//利用再開
 	@PostMapping("/{id}/enable")
 	public String enable(@PathVariable Integer id) {
 		User user = userService.findById(id);
 		userService.enableUser(user);
+
+		return "redirect:/admin/users";
+	}
+
+	//利用停止
+	@PostMapping("{id}/desable")
+	public String disable(@PathVariable Integer id) {
+		userService.disableUser(id);
 
 		return "redirect:/admin/users";
 	}
