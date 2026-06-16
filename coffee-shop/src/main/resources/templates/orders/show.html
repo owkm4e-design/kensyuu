@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<th:block th:replace="~{fragment/head :: meta}"></th:block>
+
+	<title>注文詳細 | コーヒー豆通販サイト</title>
+
+	<th:block th:replace="~{fragment/head :: styles}"></th:block>
+</head>
+
+<body class="coffee-wrapper">
+
+	<div th:replace="~{fragment/header :: header}"></div>
+
+	<div class="container mt-5">
+
+		<h2 class="text-center mb-4">
+			注文詳細
+		</h2>
+
+		<div class="card shadow-sm mb-4">
+
+			<div class="card-body">
+
+				<table class="table">
+
+					<tr>
+						<th width="30%">注文番号</th>
+						<td th:text="${order.id}"></td>
+					</tr>
+
+					<tr>
+						<th>注文日時</th>
+						<td th:text="${#temporals.format(order.createdAt,'yyyy/MM/dd HH:mm')}"></td>
+					</tr>
+
+					<tr>
+						<th>合計金額</th>
+						<td th:text="${order.totalPrice + ' 円'}"></td>
+					</tr>
+
+					<tr>
+						<th>注文状況</th>
+						<td th:text="${order.status}"></td>
+					</tr>
+
+				</table>
+
+			</div>
+
+		</div>
+
+		<div class="card shadow-sm">
+
+			<div class="card-body">
+
+				<h4 class="mb-3">
+					注文商品
+				</h4>
+
+				<table class="table table-striped">
+
+					<thead>
+						<tr>
+							<th>商品名</th>
+							<th>数量</th>
+							<th>単価</th>
+							<th>小計</th>
+						</tr>
+					</thead>
+
+					<tbody>
+
+						<tr th:each="detail : ${orderDetails}">
+
+							<td th:text="${detail.product.productName}"></td>
+
+							<td th:text="${detail.quantity}"></td>
+
+							<td th:text="${detail.price + ' 円'}"></td>
+
+							<td th:text="${detail.price * detail.quantity + ' 円'}"></td>
+
+						</tr>
+
+					</tbody>
+
+				</table>
+
+			</div>
+
+		</div>
+
+		<div class="mt-4">
+
+			<a th:href="@{/orders}" class="btn btn-secondary">
+				注文履歴へ戻る
+			</a>
+
+		</div>
+
+	</div>
+
+	<div th:replace="~{fragment/footer :: footer}"></div>
+
+</body>
+
+</html>
