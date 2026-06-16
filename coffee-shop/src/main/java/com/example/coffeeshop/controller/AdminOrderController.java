@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.coffeeshop.entity.Order;
+import com.example.coffeeshop.entity.OrderDetail;
 import com.example.coffeeshop.repository.OrderRepository;
 import com.example.coffeeshop.service.OrderDetailService;
 import com.example.coffeeshop.service.OrderService;
@@ -24,7 +25,7 @@ public class AdminOrderController {
 	private final OrderService orderService;
 	private final OrderDetailService orderDetailService;
 
-	//（管理者用）商品一覧
+	//（管理者用）注文一覧
 	@GetMapping
 	public String index(Model model) {
 
@@ -33,11 +34,17 @@ public class AdminOrderController {
 		return "admin/orders/index";
 
 	}
-	
+
 	//（管理者用）詳細
 	@GetMapping("/{id}")
-	public String show(@PathVariable Integer id,Model model) {
-		
-		
+	public String show(@PathVariable Integer id, Model model) {
+		Order order = orderService.findById(id);
+
+		List<OrderDetail> orderDetails = orderDetailService.findByOrder(order);
+
+		model.addAttribute("order", order);
+		model.addAttribute("orderDetails", orderDetails);
+
+		return "admin/orders/show";
 	}
 }
