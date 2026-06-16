@@ -37,7 +37,7 @@ public class ProductService {
 			String imageName = imageFile.getOriginalFilename();
 			String hashedImageName = generateNewFileName(imageName);
 
-			Path filePath = Paths.get("/src/main/resources/static/storage" + hashedImageName);
+			Path filePath = Paths.get("src/main/resources/static/storage/" + hashedImageName);
 
 			copyImageFile(imageFile, filePath);
 
@@ -57,17 +57,26 @@ public class ProductService {
 	//商品の更新
 	@Transactional
 	public void update(ProductEditForm productEditForm) {
-		Product product = productRepository.getReferenceById(productEditForm.getId());
+		Product product = findById(productEditForm.getId());
 		MultipartFile imageFile = productEditForm.getImageFile();
 
 		if (!imageFile.isEmpty()) {
 			String imageName = imageFile.getOriginalFilename();
 			String hashedImageName = generateNewFileName(imageName);
-			Path filePath = Paths.get("/src/main/resources/static/storage/" + hashedImageName);
+			Path filePath = Paths.get("src/main/resources/static/storage/" + hashedImageName);
 			copyImageFile(imageFile, filePath);
 			product.setImageFileName(hashedImageName);
 
 		}
+		
+		product.setProductName(productEditForm.getProductName());
+		product.setOrigin(productEditForm.getOrigin());
+		product.setRoastLevel(productEditForm.getRoastLevel());
+		product.setDescription(productEditForm.getDescription());
+		product.setPrice(productEditForm.getPrice());
+
+		productRepository.save(product);
+
 	}
 
 	//ファイル名の変更処理
@@ -149,6 +158,12 @@ public class ProductService {
 	public Product findById(Integer id) {
 		return productRepository.findById(id).orElseThrow(
 				() -> new RuntimeException("商品が見つかりません"));//存在しないIDだった場合エラーを返す
+	}
+
+	//削除
+	@Transactional
+	public void deleteById(Integer id) {
+		productRepository.deleteById(id);
 	}
 
 }

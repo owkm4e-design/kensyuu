@@ -16,7 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.coffeeshop.entity.Product;
 import com.example.coffeeshop.form.ProductEditForm;
 import com.example.coffeeshop.form.ProductRegisterForm;
-import com.example.coffeeshop.repository.ProductRepository;
 import com.example.coffeeshop.service.ProductService;
 
 import lombok.AllArgsConstructor;
@@ -29,12 +28,10 @@ public class AdminProductController {
 
 	private final ProductService productService;
 
-	private final ProductRepository productRepository;
-
 	@GetMapping
 	//（管理者用）商品一覧ページ表示
 	public String index(Model model) {
-		List<Product> products = productRepository.findAll();
+		List<Product> products = productService.findAll();
 
 		model.addAttribute("products", products);
 
@@ -44,7 +41,7 @@ public class AdminProductController {
 	@GetMapping("/{id}")
 	//（管理者用）商品詳細ページの表示
 	public String show(@PathVariable(name = "id") Integer id, Model model) {
-		Product product = productRepository.getReferenceById(id);
+		Product product = productService.findById(id);
 
 		model.addAttribute("product", product);
 
@@ -80,7 +77,7 @@ public class AdminProductController {
 	@GetMapping("/{id}/edit")
 	//商品の編集画面表示
 	public String edit(@PathVariable(name = "id") Integer id, Model model) {
-		Product product = productRepository.getReferenceById(id);
+		Product product = productService.findById(id);
 		String imageName = product.getImageFileName();
 
 		ProductEditForm productEditForm = new ProductEditForm(product.getId(), product.getProductName(),
@@ -111,7 +108,7 @@ public class AdminProductController {
 	//商品の編集⇒登録情報の削除
 	public String delete(@PathVariable(name = "id") Integer id, RedirectAttributes redirectAttributes) {
 
-		productRepository.deleteById(id);
+		productService.deleteById(id);
 
 		redirectAttributes.addFlashAttribute("successMessage", "削除しました");
 

@@ -69,7 +69,7 @@ public class AdminUserController {
 	}
 
 	//利用停止
-	@PostMapping("{id}/desable")
+	@PostMapping("{id}/disable")
 	public String disable(@PathVariable Integer id) {
 		userService.disableUser(id);
 
